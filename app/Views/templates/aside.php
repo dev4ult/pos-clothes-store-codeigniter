@@ -1,13 +1,13 @@
 <?php
 $pages = ["", "Dashboard", "Produk", "Transaksi"];
 ?>
-<div class="px-14">
+<div class="pr-14">
     <button type="button" class="aside-btn btn btn-square btn-ghost">
         <img src="./images/menu.png" class="w-7" alt="back">
     </button>
 </div>
 <div id="aside" class="absolute right-full transition-all top-0 z-20 w-fit p-14 bg-white text-right h-screen">
-    <button type="button" class="aside-btn btn btn-square mb-10 btn-ghost btn-active">
+    <button type="button" class="aside-btn btn btn-square mb-10 btn-ghost">
         <img src="./images/arrow.png" class="w-8" alt="back">
     </button>
     <div class="text-center">
@@ -20,7 +20,7 @@ $pages = ["", "Dashboard", "Produk", "Transaksi"];
     <ul class="mt-14 flex flex-col gap-3">
         <?php foreach ($pages as $page) : ?>
         <li><a href="/<?= strtolower($page) ?>"
-                class="btn <?= $page_title == $page ? 'btn-primary text-white btn-active' : 'btn-ghost' ?> w-full text-lg btn-xl"><?= $page == "" ? "Home" : $page ?></a>
+                class="btn <?= $page_title == $page ? 'btn-primary text-white btn-active' : 'btn-ghost' ?> w-full text-lg btn-xl min-w-[13rem]"><?= $page == "" ? "Home" : $page ?></a>
         </li>
         <?php endforeach ?>
     </ul>

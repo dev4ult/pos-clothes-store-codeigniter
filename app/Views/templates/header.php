@@ -9,4 +9,4 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 
-<body class="font-poppins py-14 flex">
+<body class="font-poppins p-14 flex overflow-x-hidden">
