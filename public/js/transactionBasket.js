@@ -59,7 +59,7 @@ for (let i = 0; i < addToBasketBtn.length; i++) {
     const size = document.querySelector(`input[name="${id}-size"]:checked`);
 
     if (!size) {
-      alert('Pilih ukuran terlebih dahulu');
+      Swal.fire('Produk', 'Pilih ukuran terlebih dahulu', 'warning');
     } else {
       const found = basket.some((product) => product.id == id && product.size == size.value);
       if (!found) {
@@ -71,13 +71,20 @@ for (let i = 0; i < addToBasketBtn.length; i++) {
           size: size ? size.value : size,
         });
 
+        if (basket.length == 1) {
+          transactionDetailContainer.innerHTML = '';
+        }
+
         transactionDetailContainer.appendChild(detailTransactionEl(id, name, 1, size.value, price));
+        totalProductBasket.innerHTML = `${basket.length}`;
       } else {
-        alert('Produk ini sudah ada di keranjang');
+        Swal.fire('Keranjang Produk', 'Produk tersebut sudah ada di keranjang', 'error');
       }
     }
   });
 }
+
+const totalProductBasket = document.getElementById('total-product-basket');
 
 document.addEventListener('click', (e) => {
   const el = e.target;
@@ -100,10 +107,25 @@ document.addEventListener('click', (e) => {
       }
     }
 
+    totalProductBasket.innerHTML = `${basket.length}`;
+
     transactionDetailContainer.innerHTML = '';
     basket.forEach((product) => {
       const { id, name, total, size, price } = product;
       transactionDetailContainer.appendChild(detailTransactionEl(id, name, total, size, price));
     });
+
+    if (basket.length == 0) {
+      const trEmpty = document.createElement('tr');
+      const td = document.createElement('td');
+
+      td.setAttribute('colspan', '4');
+      td.setAttribute('class', 'text-center');
+
+      td.innerHTML = '- Keranjang Kosong -';
+
+      trEmpty.appendChild(td);
+      transactionDetailContainer.appendChild(trEmpty);
+    }
   }
 });

@@ -34,6 +34,10 @@ $routes->get('/login', 'Auth::index');
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/produk', 'Product::index');
 
+$routes->get('/produk/(:any)', 'Product::$1');
+
+$routes->post('/produk/save_produk', 'Product::save_product');
+
 
 /*
  * --------------------------------------------------------------------
