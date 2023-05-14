@@ -22,9 +22,9 @@ class Product extends BaseController {
     public function index() {
         $this->data['page_title'] = 'Produk';
 
-        $this->data['products'] = $this->product_model->select('id_produk, nama_baju, gambar_baju, kategori.nama_kategori')->join('kategori', 'kategori.id_kategori = produk_baju.id_kategori')->get()->getResult();
+        $this->data['products'] = $this->product_model->select('id_produk, nama_baju, harga, gambar_baju, kategori.nama_kategori')->join('kategori', 'kategori.id_kategori = produk_baju.id_kategori')->get()->getResult();
 
-        $this->data['product_stock'] = $this->stock_model->select('stok_produk.id_produk, ukuran.jenis_ukuran, stok')
+        $this->data['product_stock'] = $this->stock_model->select('id_stok, stok_produk.id_produk, ukuran.jenis_ukuran, stok')
             ->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')
             ->join('ukuran', 'stok_produk.id_ukuran = ukuran.id_ukuran')->get()->getResult();
 

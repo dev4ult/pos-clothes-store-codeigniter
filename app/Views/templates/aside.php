@@ -6,7 +6,8 @@ $pages = ["", "Dashboard", "Produk", "Transaksi"];
         <img src="./images/menu.png" class="w-7" alt="back">
     </button>
 </div>
-<div id="aside" class="absolute right-full transition-all top-0 z-20 w-fit p-14 bg-white text-right h-screen">
+<div id="aside"
+    class="absolute right-full transition-all top-0 z-20 w-fit p-14 bg-white text-right h-screen border-r-2">
     <button type="button" class="aside-btn btn btn-square mb-10 btn-ghost">
         <img src="./images/arrow.png" class="w-8" alt="back">
     </button>

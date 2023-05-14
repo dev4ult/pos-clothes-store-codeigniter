@@ -1,0 +1,109 @@
+const asideTransaction = document.getElementById('aside-transaction');
+const asideTransactionBtn = document.getElementsByClassName('aside-transaction-btn');
+
+for (let i = 0; i < 2; i++) {
+  asideTransactionBtn[i].addEventListener('click', (e) => {
+    asideTransaction.classList.toggle('-translate-x-full');
+  });
+}
+
+const addToBasketBtn = document.getElementsByClassName('add-to-basket-btn');
+// const minusProductBtn = document.getElementsByClassName('minus-product-btn');
+
+const transactionDetailContainer = document.getElementById('transaction-detail-container');
+const detailTransactionEl = (id, name, total, size, price) => {
+  const tr = document.createElement('tr');
+  const tdName = document.createElement('td');
+
+  tdName.innerHTML = `${name} (${size})`;
+  tr.appendChild(tdName);
+
+  const tdSize = document.createElement('td');
+  tdSize.innerHTML = total;
+  tr.appendChild(tdSize);
+
+  const tdPrice = document.createElement('td');
+  tdPrice.innerHTML = `Rp. ${price * total}`;
+  tr.appendChild(tdPrice);
+
+  const btnAdd = document.createElement('button');
+  btnAdd.setAttribute('type', 'button');
+  btnAdd.setAttribute('id', `${id}-${size}-add-action`);
+  btnAdd.setAttribute('class', 'add-action-btn btn btn-sm btn-square btn-info');
+  btnAdd.innerHTML = '+';
+
+  const btnMinus = document.createElement('button');
+  btnMinus.setAttribute('type', 'button');
+  btnMinus.setAttribute('id', `${id}-${size}-minus-action`);
+  btnMinus.setAttribute('class', 'minus-action-btn btn btn-sm btn-square btn-error');
+  btnMinus.innerHTML = '-';
+
+  const tdActions = document.createElement('td');
+  tdActions.setAttribute('class', 'flex gap-1');
+  tdActions.innerHTML = '';
+  tdActions.appendChild(btnAdd);
+  tdActions.appendChild(btnMinus);
+
+  tr.appendChild(tdActions);
+
+  return tr;
+};
+
+const basket = [];
+
+for (let i = 0; i < addToBasketBtn.length; i++) {
+  addToBasketBtn[i].addEventListener('click', (e) => {
+    const id = e.target.getAttribute('id').split('-')[0];
+    const name = document.getElementById(`${id}-name`).value;
+    const price = document.getElementById(`${id}-price`).value;
+    const size = document.querySelector(`input[name="${id}-size"]:checked`);
+
+    if (!size) {
+      alert('Pilih ukuran terlebih dahulu');
+    } else {
+      const found = basket.some((product) => product.id == id && product.size == size.value);
+      if (!found) {
+        basket.push({
+          id,
+          name,
+          price,
+          total: 1,
+          size: size ? size.value : size,
+        });
+
+        transactionDetailContainer.appendChild(detailTransactionEl(id, name, 1, size.value, price));
+      } else {
+        alert('Produk ini sudah ada di keranjang');
+      }
+    }
+  });
+}
+
+document.addEventListener('click', (e) => {
+  const el = e.target;
+  if (el.classList.contains('add-action-btn') || el.classList.contains('minus-action-btn')) {
+    const data = el.getAttribute('id').split('-');
+    const id = data[0];
+    const size = data[1];
+    const operation = data[2];
+
+    for (let i = 0; i < basket.length; i++) {
+      if (basket[i]['id'] == id && basket[i]['size'] == size) {
+        if (operation == 'add') {
+          basket[i]['total'] += 1;
+        } else {
+          basket[i]['total'] -= 1;
+          if (basket[i]['total'] == 0) {
+            basket.splice(i, 1);
+          }
+        }
+      }
+    }
+
+    transactionDetailContainer.innerHTML = '';
+    basket.forEach((product) => {
+      const { id, name, total, size, price } = product;
+      transactionDetailContainer.appendChild(detailTransactionEl(id, name, total, size, price));
+    });
+  }
+});

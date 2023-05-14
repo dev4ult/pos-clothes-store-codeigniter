@@ -41,23 +41,39 @@
 
     <div class="flex flex-wrap gap-10">
         <?php foreach ($products as $product) : ?>
+        <?php $product_id = $product->id_produk; ?>
         <div class=" card w-64 z-0 bg-white/50 border-2 transition-all hover:shadow-md">
             <figure><img src="data:image/jpg;base64,<?= base64_encode($product->gambar_baju) ?>"
                     class="h-40 w-full object-cover" alt="<?= $product->nama_baju ?>" /></figure>
             <div class="card-body p-6">
-                <h2 class="card-title text-base">
+                <div class="badge badge-outline justify-end"><?= $product->nama_kategori ?></div>
+                <h2 class="card-title text-base ">
                     <?= $product->nama_baju ?>
                 </h2>
+                <div class="card-actions">
+                    <h3 class="text-xl font-bold">Rp.<?= $product->harga ?></h3>
+                </div>
                 <div class="card-actions justify-end">
                     <?php foreach ($product_stock as $stock) : ?>
                     <?php if ($product->id_produk == $stock->id_produk) : ?>
-                    <div class="badge badge-accent"><?= $stock->jenis_ukuran ?></div>
+                    <div>
+                        <input type="radio" id="<?= $stock->id_stok ?>" name="<?= $product_id ?>-size"
+                            class="peer hidden" value="<?= $stock->jenis_ukuran ?>">
+                        <label for="<?= $stock->id_stok ?>" class="btn btn-xs peer-checked:btn-accent">
+                            <?= $stock->jenis_ukuran ?>
+                        </label>
+                    </div>
                     <?php endif ?>
                     <?php endforeach ?>
-                    <div class="badge badge-outline"><?= $product->nama_kategori ?></div>
                 </div>
-                <div class="card-actions justify-end mt-5">
-                    <button type="button" class="btn btn-sm btn-primary btn-outline">Keranjang +</button>
+                <div class="card-actions justify-end mt-3">
+                    <div class="hidden">
+                        <input type="text" id="<?= $product_id ?>-name" value="<?= $product->nama_baju ?>">
+                        <input type="number" id="<?= $product_id ?>-price" value="<?= $product->harga ?>">
+                    </div>
+                    <button id="<?= $product_id ?>-add" type="submit"
+                        class="add-to-basket-btn btn btn-sm btn-primary btn-outline">Keranjang
+                        +</button>
                 </div>
             </div>
         </div>
