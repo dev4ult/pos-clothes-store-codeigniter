@@ -14,6 +14,7 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
+$routes->setAutoRoute(true);
 $routes->set404Override();
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
@@ -34,10 +35,12 @@ $routes->get('/login', 'Auth::index');
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->get('/produk', 'Product::index');
 
-$routes->get('/produk/(:any)', 'Product::$1');
 
+$routes->get('/produk/list_tabel', 'Product::table_list');
 $routes->post('/produk/save_produk', 'Product::save_product');
+$routes->post('/produk/save_stok_produk', 'Product::save_product_Stock');
 
+$routes->get('/produk/detail/(:any)', 'Product::detail/$1');
 
 /*
  * --------------------------------------------------------------------

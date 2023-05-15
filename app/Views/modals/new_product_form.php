@@ -45,15 +45,17 @@
             <div class="flex gap-3">
                 <div class="form-control flex-grow">
                     <label class="label">
-                        <span class="label-text">Deskripsi</span>
-                    </label>
-                    <textarea class="textarea textarea-bordered h-24 w-full" name="product-desc" placeholder="Deksripsi"></textarea>
-                </div>
-                <div class="form-control flex-grow">
-                    <label class="label">
                         <span class="label-text">Jumlah / Stok</span>
                     </label>
                     <input type="number" name="product-stock" placeholder="10XX" class="input w-full input-bordered" />
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <div class="form-control flex-grow">
+                    <label class="label">
+                        <span class="label-text">Deskripsi</span>
+                    </label>
+                    <textarea class="textarea textarea-bordered h-24 w-full" name="product-desc" placeholder="Deksripsi"></textarea>
                 </div>
             </div>
             <div class="flex gap-3">

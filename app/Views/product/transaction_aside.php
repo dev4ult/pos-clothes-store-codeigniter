@@ -1,7 +1,7 @@
 <div class="pl-5">
     <button class="aside-transaction-btn relative btn btn-square btn-ghost">
         <img src="./images/basket.png" class="w-7" alt="keranjang">
-        <div id="total-product-basket" class="absolute -top-1 -right-2 badge badge-sm badge-error">0</div>
+        <div id="total-product-basket" class="absolute -top-1 -right-2 badge badge-sm badge-accent">0</div>
     </button>
 </div>
 <div id="aside-transaction" class="absolute top-0 bottom-0 left-full p-14 bg-white transition-all border-l-2">

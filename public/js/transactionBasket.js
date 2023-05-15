@@ -73,10 +73,13 @@ for (let i = 0; i < addToBasketBtn.length; i++) {
 
         if (basket.length == 1) {
           transactionDetailContainer.innerHTML = '';
+          totalProductBasket.classList.remove('badge-accent');
+          totalProductBasket.classList.add('badge-error');
         }
 
         transactionDetailContainer.appendChild(detailTransactionEl(id, name, 1, size.value, price));
         totalProductBasket.innerHTML = `${basket.length}`;
+        Swal.fire('Keranjang Produk', 'Produk berhasil ditambahkan', 'success');
       } else {
         Swal.fire('Keranjang Produk', 'Produk tersebut sudah ada di keranjang', 'error');
       }
@@ -126,6 +129,9 @@ document.addEventListener('click', (e) => {
 
       trEmpty.appendChild(td);
       transactionDetailContainer.appendChild(trEmpty);
+
+      totalProductBasket.classList.add('badge-accent');
+      totalProductBasket.classList.remove('badge-error');
     }
   }
 });
