@@ -135,11 +135,11 @@ class Product extends BaseController {
             if ($update) {
                 return redirect()->to("produk/detail/" . $product_id);
             }
-        } else {
-            $save_product = $this->product_model->insert($insert_product);
-
-            $product_id = $this->product_model->getInsertID();
         }
+
+        $save_product = $this->product_model->insert($insert_product);
+
+        $product_id = $this->product_model->getInsertID();
 
         $insert_product_stock = [
             'id_produk' => $product_id,
@@ -159,7 +159,7 @@ class Product extends BaseController {
             return redirect()->route('produk');
         }
 
-        $delete = $this->product_model->where(['id_produk' => $product_id])->delete();
+        $this->product_model->where(['id_produk' => $product_id])->delete();
 
         return redirect()->route('produk/list_tabel');
     }

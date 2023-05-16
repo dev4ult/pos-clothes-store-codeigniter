@@ -4,7 +4,7 @@
         <div id="total-product-basket" class="absolute -top-1 -right-2 badge badge-sm badge-accent">0</div>
     </button>
 </div>
-<div id="aside-transaction" class="absolute top-0 bottom-0 left-full p-14 bg-white transition-all border-l-2">
+<div id="aside-transaction" class="fixed top-0 bottom-0 left-full p-14 bg-white transition-all border-l-2">
     <button class="aside-transaction-btn relative btn btn-square btn-ghost mb-5">
         <img src="./images/arrow.png" class="w-7 rotate-180" alt="kembali">
     </button>
@@ -15,8 +15,7 @@
                 <label class="label">
                     <span class="label-text font-medium">ID Member (Opsional)</span>
                 </label>
-                <input type="number" placeholder="Ketikkan ID Member jika tersedia"
-                    class="input input-bordered min-w-[22rem]" />
+                <input type="number" placeholder="Ketikkan ID Member jika tersedia" class="input input-bordered min-w-[22rem]" />
             </div>
             <div class="overflow-x-auto">
                 <h4 class="text-sm font-medium mb-2">Detail Keranjang</h4>
@@ -42,10 +41,8 @@
             </div>
         </div>
         <div class="flex gap-2">
-            <button type="submit" formaction="/transaksi/bayar_transaksi"
-                class="hidden transaction-btn btn btn-sm btn-primary">Bayar</button>
-            <button type="submit" formaction="/transaksi/save_transaksi"
-                class="hidden transaction-btn btn btn-sm btn-primary btn-outline">Simpan
+            <button type="submit" formaction="/transaksi/bayar_transaksi" class="hidden transaction-btn btn btn-sm btn-primary">Bayar</button>
+            <button type="submit" formaction="/transaksi/save_transaksi" class="hidden transaction-btn btn btn-sm btn-primary btn-outline">Simpan
                 Transaksi</button>
         </div>
     </form>

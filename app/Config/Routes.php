@@ -33,22 +33,25 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 $routes->get('/login', 'Auth::index');
 $routes->get('/dashboard', 'Dashboard::index');
+
 $routes->get('/produk', 'Product::index');
-
-
 $routes->get('/produk/list_tabel', 'Product::table_list');
 $routes->post('/produk/save_produk', 'Product::save_product');
-
 $routes->post('/produk/stok_produk_baru', 'Product::new_product_stock');
 $routes->post('/produk/save_stok_produk', 'Product::save_product_stock');
-
 $routes->get('/produk/hapus_produk/(:any)', 'Product::delete_product/$1');
-
 $routes->get('/produk/detail/(:any)', 'Product::detail/$1');
 
 $routes->post('/transaksi/bayar_transaksi', 'Transaction::finish_transaction');
 $routes->post('/transaksi/save_transaksi', 'Transaction::save_transaction');
 
+$routes->get('/member', 'Member::index');
+$routes->post('/member/save_member', 'Member::save_member');
+$routes->get('/member/hapus_member/(:any)', 'Member::delete_member/$1');
+
+$routes->get('/kasir', 'CashierEmployee::index');
+$routes->post('/kasir/save_kasir', 'CashierEmployee::save_cashier_employee');
+$routes->get('/kasir/delete_kasir/(:any)', 'CashierEmployee::delete_cashier_employee/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
