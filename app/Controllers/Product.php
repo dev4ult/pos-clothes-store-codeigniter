@@ -107,8 +107,18 @@ class Product extends BaseController {
             return redirect()->route('produk');
         }
 
+        $update_product = [
+            'id_kategori' => $this->request->getPost('product-category'),
+            'nama_baju' => $this->request->getPost('product-name'),
+            'harga' => $this->request->getPost('product-price'),
+            'deskripsi' => $this->request->getPost('product-desc'),
+        ];
+
         $image_data = $this->request->getFile('product-img');
-        $image_data = file_get_contents($image_data->getTempName());
+        if (($image_data)->isValid()) {
+            $image_data = file_get_contents($image_data->getTempName());
+            $update_product['gambar_baju'] = $image_data;
+        }
 
         $insert_product = [
             'id_kategori' => $this->request->getPost('product-category'),
@@ -118,8 +128,13 @@ class Product extends BaseController {
             'gambar_baju' => $image_data
         ];
 
-        if (!empty($this->request->getPost('product-id'))) {
-            return redirect()->route("produk/list_tabel");
+        $product_id = $this->request->getPost('product-id');
+        if (!empty($product_id)) {
+            $update = $this->product_model->where(['id_produk' => $product_id])->set($update_product)->update();
+
+            if ($update) {
+                return redirect()->to("produk/detail/" . $product_id);
+            }
         } else {
             $save_product = $this->product_model->insert($insert_product);
 
@@ -139,7 +154,17 @@ class Product extends BaseController {
         }
     }
 
-    function save_product_stock() {
+    function delete_product($product_id = "") {
+        if (empty($product_id) || count($this->product_model->select('*')->where(['id_produk' => $product_id])->get()->getResult()) == 0) {
+            return redirect()->route('produk');
+        }
+
+        $delete = $this->product_model->where(['id_produk' => $product_id])->delete();
+
+        return redirect()->route('produk/list_tabel');
+    }
+
+    function new_product_stock() {
         $insert_product_stock = [
             'id_produk' => $this->request->getPost('product-id'),
             'id_ukuran' => $this->request->getPost('product-size'),
@@ -149,7 +174,33 @@ class Product extends BaseController {
         $save_product_stock = $this->stock_model->insert($insert_product_stock);
 
         if ($save_product_stock) {
-            return redirect()->route('produk/detail/' . $insert_product_stock['id_produk']);
+            return redirect()->to('produk/detail/' . $insert_product_stock['id_produk']);
         }
+    }
+
+    function save_product_stock() {
+        $product_id = $this->request->getPost('product-id');
+
+        $product_stock = $this->stock_model->select("*")->where(['id_produk' => $product_id])->get()->getResult();
+
+        $stock_id = [];
+        for ($i = 0; $i < count($product_stock); $i++) {
+            array_push($stock_id, $this->request->getPost($i . '-stock-id'));
+        }
+
+        $stock_value = [];
+        foreach ($stock_id as $id) {
+            $stock_value[$id] = $this->request->getPost($id . '-product-stock');
+        }
+
+        foreach ($stock_id as $id) {
+            if ($stock_value[$id] > 0) {
+                $this->stock_model->where(['id_stok' => $id])->set(['stok' => $stock_value[$id]])->update();
+            } else {
+                $this->stock_model->where(['id_stok' => $id])->delete();
+            }
+        }
+
+        return redirect()->to('/produk/detail/' . $product_id);
     }
 }

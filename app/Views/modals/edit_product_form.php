@@ -1,6 +1,7 @@
 <input type="checkbox" id="edit-product-form-modal" class="modal-toggle" />
 <div class="modal">
-    <form id="edit-form-tag" class="modal-box max-w-xl" enctype="multipart/form-data">
+    <form action="/produk/save_produk" method="post" id="edit-form-tag" class="modal-box max-w-xl" enctype="multipart/form-data">
+        <input type="number" name="product-id" class="hidden" value="<?= $product->id_produk ?>">
         <h3 class="font-bold text-xl">Form Edit Produk</h3>
         <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
         <input type="number" name="product-id" class="hidden" value="<?= $product->id_produk ?>">
@@ -10,15 +11,13 @@
                     <label class="label">
                         <span class="label-text">Nama Baju</span>
                     </label>
-                    <input type="text" name="product-name" placeholder="T-Shirt XYZ ..."
-                        class="input w-full input-bordered" value="<?= $product->nama_baju ?>" />
+                    <input type="text" name="product-name" placeholder="T-Shirt XYZ ..." class="input w-full input-bordered" value="<?= $product->nama_baju ?>" required />
                 </div>
                 <div class="form-control flex-grow">
                     <label class="label">
                         <span class="label-text">Harga (Rp)</span>
                     </label>
-                    <input type="number" name="product-price" placeholder="100XXX" class="input w-full input-bordered"
-                        value="<?= $product->harga ?>" />
+                    <input type="number" name="product-price" placeholder="100XXX" class="input w-full input-bordered" value="<?= $product->harga ?>" required />
                 </div>
             </div>
             <div class="flex gap-3">
@@ -29,9 +28,8 @@
                     <select class="select w-full select-bordered" name="product-category">
                         <option disabled>Pilih Kategori</option>
                         <?php foreach ($categories as $category) : ?>
-                        <option value="<?= $category->id_kategori ?>"
-                            <?= $category->id_kategori == $product->id_kategori ? 'selected' : '' ?>>
-                            <?= $category->nama_kategori ?></option>
+                            <option value="<?= $category->id_kategori ?>" <?= $category->id_kategori == $product->id_kategori ? 'selected' : '' ?>>
+                                <?= $category->nama_kategori ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -41,8 +39,7 @@
                     <label class="label">
                         <span class="label-text">Deskripsi</span>
                     </label>
-                    <textarea class="textarea textarea-bordered h-24 w-full" name="product-desc"
-                        placeholder="Deksripsi"><?= $product->deskripsi ?></textarea>
+                    <textarea class="textarea textarea-bordered h-24 w-full" name="product-desc" placeholder="Deksripsi"><?= $product->deskripsi ?></textarea>
                 </div>
             </div>
             <div class="flex gap-3">

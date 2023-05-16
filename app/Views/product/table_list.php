@@ -40,7 +40,9 @@
                     </td>
                     <td class="flex gap-2">
                         <a href="/produk/detail/<?= $product->id_produk ?>" class="btn btn-sm btn-accent">detail</a>
-                        <button type="button" class="btn btn-sm btn-error btn-outline">hapus</button>
+                        <label for="delete-product-form-modal" type="button"
+                            class="btn btn-sm btn-error btn-outline">hapus</label>
+                        <?php include('../app/Views/modals/delete_product_form.php') ?>
                     </td>
                 </tr>
                 <?php $i++ ?>

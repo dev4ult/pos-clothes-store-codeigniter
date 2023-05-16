@@ -2479,14 +2479,6 @@ html{
   color: hsl(var(--ac) / var(--tw-text-opacity));
 }
 
-.badge-info{
-  border-color: transparent;
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--in) / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: hsl(var(--inc, var(--nc)) / var(--tw-text-opacity));
-}
-
 .badge-error{
   border-color: transparent;
   --tw-bg-opacity: 1;
@@ -2701,12 +2693,6 @@ html{
   background-color: hsl(var(--af, var(--a)) / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: hsl(var(--ac) / var(--tw-text-opacity));
-}
-
-.btm-nav>*:where(.active){
-  border-top-width: 2px;
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--b1) / var(--tw-bg-opacity));
 }
 
 .btm-nav>*.disabled,
@@ -3808,22 +3794,6 @@ html{
   padding-right: 0.688rem;
 }
 
-.btm-nav-xs>*:where(.active){
-  border-top-width: 1px;
-}
-
-.btm-nav-sm>*:where(.active){
-  border-top-width: 2px;
-}
-
-.btm-nav-md>*:where(.active){
-  border-top-width: 2px;
-}
-
-.btm-nav-lg>*:where(.active){
-  border-top-width: 4px;
-}
-
 .btn-xs{
   height: 1.5rem;
   padding-left: 0.5rem;
@@ -4080,10 +4050,6 @@ html{
   margin-top: 1.25rem;
 }
 
-.ml-auto{
-  margin-left: auto;
-}
-
 .block{
   display: block;
 }
@@ -4108,6 +4074,10 @@ html{
   height: 10rem;
 }
 
+.h-56{
+  height: 14rem;
+}
+
 .h-6{
   height: 1.5rem;
 }
@@ -4116,12 +4086,16 @@ html{
   height: 100vh;
 }
 
-.h-56{
-  height: 14rem;
+.h-full{
+  height: 100%;
 }
 
 .w-12{
   width: 3rem;
+}
+
+.w-52{
+  width: 13rem;
 }
 
 .w-6{
@@ -4151,14 +4125,6 @@ html{
 
 .w-full{
   width: 100%;
-}
-
-.w-40{
-  width: 10rem;
-}
-
-.w-52{
-  width: 13rem;
 }
 
 .min-w-\[13rem\]{
@@ -4256,16 +4222,20 @@ html{
   overflow-x: hidden;
 }
 
+.break-words{
+  overflow-wrap: break-word;
+}
+
+.rounded-2xl{
+  border-radius: 1rem;
+}
+
 .rounded-3xl{
   border-radius: 1.5rem;
 }
 
 .rounded-full{
   border-radius: 9999px;
-}
-
-.rounded-2xl{
-  border-radius: 1rem;
 }
 
 .rounded-xl{
@@ -4408,12 +4378,9 @@ html{
   font-weight: 600;
 }
 
-.font-normal{
-  font-weight: 400;
-}
-
-.uppercase{
-  text-transform: uppercase;
+.text-error{
+  --tw-text-opacity: 1;
+  color: hsl(var(--er) / var(--tw-text-opacity));
 }
 
 .text-primary-content{
@@ -4424,23 +4391,6 @@ html{
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-error{
-  --tw-text-opacity: 1;
-  color: hsl(var(--er) / var(--tw-text-opacity));
-}
-
-.underline{
-  text-decoration-line: underline;
-}
-
-.underline-offset-1{
-  text-underline-offset: 1px;
-}
-
-.underline-offset-4{
-  text-underline-offset: 4px;
 }
 
 .antialiased{

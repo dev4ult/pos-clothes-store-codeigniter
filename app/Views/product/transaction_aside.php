@@ -8,14 +8,15 @@
     <button class="aside-transaction-btn relative btn btn-square btn-ghost mb-5">
         <img src="./images/arrow.png" class="w-7 rotate-180" alt="kembali">
     </button>
-    <form action="">
+    <form method="post">
         <h3 class="text-xl font-medium">Teruskan Transaksi</h3>
         <div class="flex flex-col gap-5 my-5">
             <div class="form-control">
                 <label class="label">
                     <span class="label-text font-medium">ID Member (Opsional)</span>
                 </label>
-                <input type="number" placeholder="Ketikkan ID Member jika tersedia" class="input input-bordered min-w-[22rem]" />
+                <input type="number" placeholder="Ketikkan ID Member jika tersedia"
+                    class="input input-bordered min-w-[22rem]" />
             </div>
             <div class="overflow-x-auto">
                 <h4 class="text-sm font-medium mb-2">Detail Keranjang</h4>
@@ -32,18 +33,21 @@
                         <tr>
                             <td colspan="4" class="text-center">- Keranjang Kosong -</td>
                         </tr>
-                        <!-- <tr>
+                        <tr id="transaction-total" class="hidden">
                             <td colspan="3" class="font-semibold">HARGA TOTAL</td>
                             <td class="font-semibold">300000</td>
-                        </tr> -->
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="flex gap-2">
-            <button type="submit" class="transaction-btn btn btn-sm btn-primary">Bayar</button>
-            <button type="submit" class="transaction-btn btn btn-sm btn-primary btn-outline">Simpan Transaksi</button>
+            <button type="submit" formaction="/transaksi/bayar_transaksi"
+                class="hidden transaction-btn btn btn-sm btn-primary">Bayar</button>
+            <button type="submit" formaction="/transaksi/save_transaksi"
+                class="hidden transaction-btn btn btn-sm btn-primary btn-outline">Simpan
+                Transaksi</button>
         </div>
     </form>
 </div>
-<script src="./js/transactionBasket.js"></script>
+<script src="<?= base_url('./js/transactionBasket.js') ?>"></script>

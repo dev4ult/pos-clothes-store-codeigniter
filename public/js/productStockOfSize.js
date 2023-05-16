@@ -27,7 +27,7 @@ editStockBtn.addEventListener('click', (e) => {
 
 document.addEventListener('click', (e) => {
   const clicked = e.target;
-  if (clicked.classList.contains('add-stock-btn') || clicked.classList.contains('minus-stock-btn')) {
+  if (clicked.classList.contains('add-stock-btn') || clicked.classList.contains('minus-stock-btn') || clicked.classList.contains('delete-stock-btn')) {
     const stockDataBtn = clicked.getAttribute('id').split('-');
     const stockId = stockDataBtn[0];
     const operation = stockDataBtn[1];
@@ -38,13 +38,16 @@ document.addEventListener('click', (e) => {
 
     if (operation == 'add') {
       stockTotal += 1;
-    } else {
+    } else if (operation == 'minus') {
       stockTotal -= 1;
+    } else {
+      stockTotal = 0;
     }
 
-    stockTd.innerHTML = stockTotal;
-    stockTotalInput.setAttribute('value', stockTotal);
-    console.log(stockTotalInput.value);
+    if (stockTotal >= 0) {
+      stockTd.innerHTML = stockTotal;
+      stockTotalInput.setAttribute('value', stockTotal);
+    }
   }
 });
 
@@ -61,28 +64,3 @@ closeStockBtn.addEventListener('click', (e) => {
   formNewSizeStock.classList.add('hidden');
   formNewSizeStock.classList.remove('flex');
 });
-
-const productId = document.querySelector('input[name="product-id"]');
-const productName = document.querySelector('input[name="product-name"]');
-const productCategory = document.querySelector('textarea[name="product-category"]');
-const productPrice = document.querySelector('input[name="product-price"]');
-const productDesc = document.querySelector('textarea[name="product-desc"]');
-
-const editFormTag = document.getElementById('edit-form-tag');
-
-editFormTag.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const formattedFormData = new FormData();
-
-  postEditData(formattedFormData);
-});
-
-async function postEditData(formattedFormData) {
-  await axios({
-    method: 'post',
-    url: '/produk/save_produk',
-    data: formattedFormData,
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-}

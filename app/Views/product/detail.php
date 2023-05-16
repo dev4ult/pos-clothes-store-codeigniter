@@ -30,44 +30,53 @@ $sizeStock = array_map("mapSizeStock", $product_stock);
             <h5 class=" text-xl  "><?= $product->deskripsi ?></h5>
         </div>
         <div>
-            <div class="flex gap-2 items-center mb-2">
-                <h3 class="badge badge-outline font-semibold">Stok</h3>
-                <button type="button" id="edit-stock-btn" class="btn btn-sm btn-accent">edit</button>
-                <button type="submit" id="save-stock-btn" class="btn btn-sm btn-primary hidden">simpan</button>
-                <button type="button" id="close-stock-btn"
-                    class="btn btn-sm btn-primary btn-square btn-outline hidden">X</button>
-            </div>
+
             <div class="overflow-x-auto w-fit">
-                <table class="table table-zebra w-full">
-                    <thead>
-                        <tr id="tr-head">
-                            <th></th>
-                            <th>Ukuran</th>
-                            <th>Stok</th>
-                            <th id="th-action" class="hidden">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-data">
-                        <?php $i = 1 ?>
-                        <?php foreach ($product_stock as $stock) : ?>
-                        <tr id="<?= $stock->id_stok ?>-tr-data" class="tr-data">
-                            <td><?= $i ?></td>
-                            <td><?= $stock->jenis_ukuran ?></td>
-                            <td id="<?= $stock->id_stok ?>-stock-total"><?= $stock->stok ?></td>
-                            <td class="td-action hidden gap-2">
-                                <button id="<?= $stock->id_stok ?>-add-stock" type="button"
-                                    class="add-stock-btn btn btn-sm btn-square btn-info">+</button>
-                                <button id="<?= $stock->id_stok ?>-minus-stock" type="button"
-                                    class="minus-stock-btn btn btn-sm btn-square btn-error">-</button>
-                            </td>
-                            <input id="<?= $stock->id_stok ?>-stock" type="number" class="product-stock hidden"
-                                value="<?= $stock->stok ?>">
-                        </tr>
-                        <?php $i++ ?>
-                        <?php endforeach ?>
-                    </tbody>
-                </table>
-                <form action="/produk/save_stok_produk" method="post" id="form-new-size-stock"
+                <form action="/produk/save_stok_produk" method="post">
+                    <div class="flex gap-2 items-center mb-2">
+                        <h3 class="badge badge-outline font-semibold">Stok</h3>
+                        <button type="button" id="edit-stock-btn" class="btn btn-sm btn-accent">edit</button>
+                        <button type="submit" id="save-stock-btn" class="btn btn-sm btn-primary hidden">simpan</button>
+                        <button type="button" id="close-stock-btn"
+                            class="btn btn-sm btn-primary btn-square btn-outline hidden">X</button>
+                    </div>
+                    <input type="number" name="product-id" class="hidden" value="<?= $product->id_produk ?>">
+                    <table class="table table-zebra w-full">
+                        <thead>
+                            <tr id="tr-head">
+                                <th></th>
+                                <th>Ukuran</th>
+                                <th>Stok</th>
+                                <th id="th-action" class="hidden">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-data">
+                            <?php $i = 1 ?>
+                            <?php foreach ($product_stock as $stock) : ?>
+                            <tr id="<?= $stock->id_stok ?>-tr-data" class="tr-data">
+                                <td><?= $i ?></td>
+                                <td><?= $stock->jenis_ukuran ?></td>
+                                <td id="<?= $stock->id_stok ?>-stock-total"><?= $stock->stok ?></td>
+                                <td class="td-action hidden gap-2">
+                                    <button id="<?= $stock->id_stok ?>-add-stock" type="button"
+                                        class="add-stock-btn btn btn-sm btn-square btn-info">+</button>
+                                    <button id="<?= $stock->id_stok ?>-minus-stock" type="button"
+                                        class="minus-stock-btn btn btn-sm btn-square btn-error">-</button>
+                                    <button id="<?= $stock->id_stok ?>-delete-stock" type="button"
+                                        class="delete-stock-btn btn btn-sm btn-outline btn-error">kosongi</button>
+                                </td>
+                                <input id="<?= $stock->id_stok ?>-stock" type="number"
+                                    name="<?= $stock->id_stok ?>-product-stock" class="product-stock hidden"
+                                    value="<?= $stock->stok ?>">
+                                <input type="number" name="<?= $i - 1 ?>-stock-id" class="hidden"
+                                    value="<?= $stock->id_stok ?>">
+                            </tr>
+                            <?php $i++ ?>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </form>
+                <form action="/produk/stok_produk_baru" method="post" id="form-new-size-stock"
                     class="gap-2 hidden mt-2">
                     <input type="number" name="product-id" class="hidden" value="<?= $product->id_produk ?>">
                     <div class="form-control ">
@@ -88,7 +97,6 @@ $sizeStock = array_map("mapSizeStock", $product_stock);
                             <button type="submit" class="btn btn-primary">tambah</button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

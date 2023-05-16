@@ -38,9 +38,16 @@ $routes->get('/produk', 'Product::index');
 
 $routes->get('/produk/list_tabel', 'Product::table_list');
 $routes->post('/produk/save_produk', 'Product::save_product');
-$routes->post('/produk/save_stok_produk', 'Product::save_product_Stock');
+
+$routes->post('/produk/stok_produk_baru', 'Product::new_product_stock');
+$routes->post('/produk/save_stok_produk', 'Product::save_product_stock');
+
+$routes->get('/produk/hapus_produk/(:any)', 'Product::delete_product/$1');
 
 $routes->get('/produk/detail/(:any)', 'Product::detail/$1');
+
+$routes->post('/transaksi/bayar_transaksi', 'Transaction::finish_transaction');
+$routes->post('/transaksi/save_transaksi', 'Transaction::save_transaction');
 
 /*
  * --------------------------------------------------------------------
