@@ -32,7 +32,7 @@
                 <div class="stat-title text-white">Kasir</div>
                 <div class="stat-value"><?= $total_product ?> Pegawai</div>
                 <div class="stat-actions">
-                    <a href="/pegawai_kasir" class="btn btn-sm btn-accent btn-outline">List Pegawai</a>
+                    <a href="/kasir" class="btn btn-sm btn-accent btn-outline">List Pegawai</a>
                 </div>
             </div>
         </div>

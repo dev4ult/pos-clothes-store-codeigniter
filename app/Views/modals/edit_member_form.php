@@ -3,7 +3,7 @@
     <form action="/member/save_member" method="post" class="modal-box max-w-xl">
         <input type="text" name="member-id" class="hidden" value="<?= $member->id_member ?>">
         <h3 class="font-bold text-xl">Form Registrasi Member</h3>
-        <p class="py-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, dolore.</p>
+        <p class="py-4">Lorem ipsum dolor sit amet consecte</p>
         <div class="flex flex-col gap-3">
             <div class="form-control">
                 <label class="label">

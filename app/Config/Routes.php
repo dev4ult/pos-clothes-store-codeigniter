@@ -50,8 +50,9 @@ $routes->post('/member/save_member', 'Member::save_member');
 $routes->get('/member/hapus_member/(:any)', 'Member::delete_member/$1');
 
 $routes->get('/kasir', 'CashierEmployee::index');
+$routes->get('/kasir/detail/(:any)', 'CashierEmployee::detail/$1');
 $routes->post('/kasir/save_kasir', 'CashierEmployee::save_cashier_employee');
-$routes->get('/kasir/delete_kasir/(:any)', 'CashierEmployee::delete_cashier_employee/$1');
+$routes->get('/kasir/hapus_kasir/(:any)', 'CashierEmployee::delete_cashier_employee/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

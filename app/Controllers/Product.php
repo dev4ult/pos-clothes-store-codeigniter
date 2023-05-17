@@ -35,7 +35,7 @@ class Product extends BaseController {
 
         $this->data['categories'] = $this->category_model->select('*')->get()->getResult();
 
-        echo view('templates/header');
+        echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
         echo view('product/index', $this->data);
         echo view('product/transaction_aside', $this->data);
@@ -55,13 +55,15 @@ class Product extends BaseController {
 
         $this->data['categories'] = $this->category_model->select('*')->get()->getResult();
 
-        echo view('templates/header');
+        echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
         echo view('product/table_list', $this->data);
         echo view('templates/footer');
     }
 
     public function detail($product_id = '') {
+        $this->data['page_title'] = 'Produk';
+
         if (empty($product_id)) {
             return redirect()->route('produk/list_tabel');
         }
@@ -85,7 +87,7 @@ class Product extends BaseController {
         $this->data['categories'] = $this->category_model->select('*')->get()->getResult();
 
 
-        echo view('templates/header');
+        echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
         echo view('product/detail', $this->data);
         echo view('modals/edit_product_form', $this->data);

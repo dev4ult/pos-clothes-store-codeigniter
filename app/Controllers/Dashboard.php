@@ -9,16 +9,18 @@ class Dashboard extends BaseController {
 
     protected $product_model;
 
+    protected $data;
+
     public function __construct() {
         $this->product_model = new Product_Model();
     }
 
     public function index() {
-        $data['page_title'] = 'Dashboard';
-        $data['total_product'] = count($this->product_model->select('*')->get()->getResult());
-        echo view('templates/header');
-        echo view('templates/aside', $data);
-        echo view('dashboard', $data);
+        $this->data['page_title'] = 'Dashboard';
+        $this->data['total_product'] = count($this->product_model->select('*')->get()->getResult());
+        echo view('templates/header', $this->data);
+        echo view('templates/aside', $this->data);
+        echo view('dashboard', $this->data);
         echo view('templates/footer');
     }
 }

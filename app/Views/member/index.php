@@ -1,6 +1,11 @@
 <div class="w-full">
     <div class="flex gap-10 justify-between mb-10">
-        <label for="new-member-modal-form" class="btn btn-primary">Registrasi Member +</label>
+        <div class="flex gap-3">
+            <a href="/dashboard" class="btn btn-primary btn-square">
+                <img src="<?= base_url('./images/dashboard.png') ?>" class="w-7" alt="dashboard">
+            </a>
+            <label for="new-member-modal-form" class="btn btn-primary">Registrasi Member +</label>
+        </div>
         <div class="form-control">
             <div class="input-group">
                 <input type="text" placeholder="Search…" class="input input-bordered" />
