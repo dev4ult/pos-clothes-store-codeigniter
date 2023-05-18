@@ -19,6 +19,8 @@ class CashierEmployee extends BaseController {
     }
 
     public function index() {
+        $this->deny_cashier_entry();
+
         $this->data['page_title'] = 'Kasir';
 
         $this->data['cashiers'] = $this->cashier_employee_model->select('*')->get()->getResult();
@@ -31,6 +33,8 @@ class CashierEmployee extends BaseController {
     }
 
     public function detail($cashier_id = "") {
+        $this->deny_cashier_entry();
+
         $this->data['page_title'] = "Kasir";
 
         if (empty($cashier_id) || count($this->cashier_employee_model->select("*")->where(['id_kasir' => $cashier_id])->get()->getResult()) == 0) {
@@ -51,6 +55,8 @@ class CashierEmployee extends BaseController {
 
 
     public function save_cashier_employee() {
+
+        $this->deny_cashier_entry();
 
         $validationRule = [
             'employee-photo' => [
@@ -89,7 +95,7 @@ class CashierEmployee extends BaseController {
 
         $password = $this->request->getPost('employee-password');
         if (!empty($password)) {
-            $password = hash('sha256', (string) $password);
+            $password = password_hash((string) $password, PASSWORD_DEFAULT);
             $update_cashier['password'] = $password;
         }
 
@@ -129,6 +135,8 @@ class CashierEmployee extends BaseController {
     }
 
     public function delete_cashier_employee($cashier_id = "") {
+        $this->deny_cashier_entry();
+
         if (empty($cashier_id) || count($this->cashier_employee_model->select('*')->where(['id_kasir' => $cashier_id])->get()->getResult()) == 0) {
             return redirect()->route('kasir');
         }
@@ -136,5 +144,11 @@ class CashierEmployee extends BaseController {
         $this->cashier_employee_model->where(['id_kasir' => $cashier_id])->delete();
 
         return redirect()->route('kasir');
+    }
+
+    private function deny_cashier_entry() {
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
     }
 }

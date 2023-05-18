@@ -64,6 +64,8 @@ class Member extends BaseController {
     }
 
     public function delete_member($member_id = "") {
+        $this->deny_cashier_entry();
+
         if (empty($member_id)) {
             return redirect()->route('member');
         }
@@ -77,5 +79,11 @@ class Member extends BaseController {
         $this->member_model->where(['id_member' => $member_id])->delete();
 
         return redirect()->route('member');
+    }
+
+    private function deny_cashier_entry() {
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
     }
 }

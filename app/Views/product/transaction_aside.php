@@ -15,10 +15,12 @@
                 <label class="label">
                     <span class="label-text font-medium">ID Member (Opsional)</span>
                 </label>
-                <input type="number" placeholder="Ketikkan ID Member jika tersedia" class="input input-bordered min-w-[22rem]" />
+                <input type="number" placeholder="Ketikkan ID Member jika tersedia"
+                    class="input input-bordered min-w-[22rem]" />
             </div>
             <div class="overflow-x-auto">
                 <h4 class="text-sm font-medium mb-2">Detail Keranjang</h4>
+                <input type="number" id="total-product-saved" name="total-product-saved" class="hidden">
                 <table class="table w-full">
                     <thead>
                         <tr>
@@ -41,8 +43,10 @@
             </div>
         </div>
         <div class="flex gap-2">
-            <button type="submit" formaction="/transaksi/bayar_transaksi" class="hidden transaction-btn btn btn-sm btn-primary">Bayar</button>
-            <button type="submit" formaction="/transaksi/save_transaksi" class="hidden transaction-btn btn btn-sm btn-primary btn-outline">Simpan
+            <button type="submit" formaction="/transaksi/bayar_transaksi"
+                class="hidden transaction-btn btn btn-sm btn-primary">Bayar</button>
+            <button type="submit" formaction="/transaksi/save_transaksi"
+                class="hidden transaction-btn btn btn-sm btn-primary btn-outline">Simpan
                 Transaksi</button>
         </div>
     </form>

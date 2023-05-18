@@ -36,9 +36,10 @@ class Auth extends BaseController {
 
         if ($user_admin && password_verify($password, $user_admin['password'])) {
             session()->set([
-                'user_id' => $user_admin->id_admin,
-                'username' => $user_admin->username,
+                'user_id' => $user_admin['id_admin'],
+                'username' => $user_admin['username'],
                 'role' => 'admin',
+                'user_photo' => $user_admin['foto_profil'],
                 'logged_in' => TRUE
             ]);
             return redirect()->route('dashboard');
@@ -47,9 +48,10 @@ class Auth extends BaseController {
 
         if ($user_cashier && password_verify($password, $user_cashier['password'])) {
             session()->set([
-                'user_id' => $user_cashier->id_admin,
-                'username' => $user_cashier->username,
+                'user_id' => $user_cashier['id_kasir'],
+                'username' => $user_cashier['username'],
                 'role' => 'cashier',
+                'user_photo' => $user_cashier['foto_profil'],
                 'logged_in' => TRUE
             ]);
             return redirect()->route('dashboard');

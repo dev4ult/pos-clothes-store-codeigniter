@@ -43,6 +43,8 @@ class Product extends BaseController {
     }
 
     public function table_list() {
+        $this->deny_cashier_entry();
+
         $this->data['page_title'] = 'Produk';
 
         $this->data['products'] = $this->product_model->select('*')->join('kategori', 'kategori.id_kategori = produk_baju.id_kategori')->get()->getResult();
@@ -62,6 +64,8 @@ class Product extends BaseController {
     }
 
     public function detail($product_id = '') {
+        $this->deny_cashier_entry();
+
         $this->data['page_title'] = 'Produk';
 
         if (empty($product_id)) {
@@ -95,6 +99,7 @@ class Product extends BaseController {
     }
 
     public function save_product() {
+        $this->deny_cashier_entry();
 
         $validationRule = [
             'product-img' => [
@@ -157,6 +162,8 @@ class Product extends BaseController {
     }
 
     function delete_product($product_id = "") {
+        $this->deny_cashier_entry();
+
         if (empty($product_id) || count($this->product_model->select('*')->where(['id_produk' => $product_id])->get()->getResult()) == 0) {
             return redirect()->route('produk');
         }
@@ -167,6 +174,8 @@ class Product extends BaseController {
     }
 
     function new_product_stock() {
+        $this->deny_cashier_entry();
+
         $insert_product_stock = [
             'id_produk' => $this->request->getPost('product-id'),
             'id_ukuran' => $this->request->getPost('product-size'),
@@ -181,6 +190,8 @@ class Product extends BaseController {
     }
 
     function save_product_stock() {
+        $this->deny_cashier_entry();
+
         $product_id = $this->request->getPost('product-id');
 
         $product_stock = $this->stock_model->select("*")->where(['id_produk' => $product_id])->get()->getResult();
@@ -204,5 +215,11 @@ class Product extends BaseController {
         }
 
         return redirect()->to('/produk/detail/' . $product_id);
+    }
+
+    private function deny_cashier_entry() {
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
     }
 }

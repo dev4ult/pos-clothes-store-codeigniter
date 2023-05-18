@@ -8,12 +8,14 @@ for (let i = 0; i < 2; i++) {
 }
 
 const addToBasketBtn = document.getElementsByClassName('add-to-basket-btn');
-// const minusProductBtn = document.getElementsByClassName('minus-product-btn');
+const totalProductSaved = document.getElementById('total-product-saved');
 
 const transactionDetailContainer = document.getElementById('transaction-detail-container');
-const detailTransactionEl = (id, name, total, size, price) => {
+const detailTransactionEl = (id, stockId, name, total, size, price) => {
   const tr = document.createElement('tr');
   const tdName = document.createElement('td');
+  const inputStockId = document.createElement('input');
+  const inputStockNeededToBuy = document.createElement('input');
 
   tdName.innerHTML = `${name} (${size})`;
   tr.appendChild(tdName);
@@ -63,8 +65,11 @@ for (let i = 0; i < addToBasketBtn.length; i++) {
     } else {
       const found = basket.some((product) => product.id == id && product.size == size.value);
       if (!found) {
+        const stockId = size.getAttribute('id');
+
         basket.push({
           id,
+          stock_id: stockId,
           name,
           price,
           total: 1,
@@ -77,7 +82,9 @@ for (let i = 0; i < addToBasketBtn.length; i++) {
           totalProductBasket.classList.add('badge-error');
         }
 
-        transactionDetailContainer.appendChild(detailTransactionEl(id, name, 1, size.value, price));
+        totalProductSaved.value = basket.length;
+
+        transactionDetailContainer.appendChild(detailTransactionEl(id, stockId, name, 1, size.value, price));
         totalProductBasket.innerHTML = `${basket.length}`;
         Swal.fire('Keranjang Produk', 'Produk berhasil ditambahkan', 'success');
       } else {
@@ -114,8 +121,8 @@ document.addEventListener('click', (e) => {
 
     transactionDetailContainer.innerHTML = '';
     basket.forEach((product) => {
-      const { id, name, total, size, price } = product;
-      transactionDetailContainer.appendChild(detailTransactionEl(id, name, total, size, price));
+      const { id, stock_id, name, total, size, price } = product;
+      transactionDetailContainer.appendChild(detailTransactionEl(id, stock_id, name, total, size, price));
     });
 
     if (basket.length == 0) {

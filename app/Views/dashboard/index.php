@@ -1,5 +1,16 @@
-<div class="py-1.5">
-    <h1 class="font-semibold text-3xl">Selamat datang, Nibras</h1>
+<div class="w-full">
+    <div class="flex gap-10 justify-between items-center">
+        <h1 class="font-semibold text-3xl">Selamat datang, <?= session()->get('username') ?></h1>
+        <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn m-1 btn-square btn-error"><img class="w-7"
+                    src="<?= base_url('./images/logout.png') ?>" alt="logout" /></label>
+            <div tabindex="0" class="dropdown-content menu p-4 shadow bg-base-100 rounded-box w-52">
+                <h4 class="badge badge-success">Online</h4>
+                <h3 class="font-medium text-2xl"><?= session()->get('username') ?></h3>
+                <a href="/auth/logout" class="btn btn-sm btn-outline ml-auto">logout</a>
+            </div>
+        </div>
+    </div>
     <div class="mt-10 w-fit">
         <div class="mb-4 flex flex-wrap gap-4">
             <div class="stats bg-accent text-primary-content border-2">
