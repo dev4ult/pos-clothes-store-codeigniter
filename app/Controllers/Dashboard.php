@@ -20,7 +20,7 @@ class Dashboard extends BaseController {
         $this->data['total_product'] = count($this->product_model->select('*')->get()->getResult());
         echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
-        echo view('dashboard', $this->data);
+        echo view('dashboard/index', $this->data);
         echo view('templates/footer');
     }
 }

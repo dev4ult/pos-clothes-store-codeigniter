@@ -31,28 +31,44 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('/login', 'Auth::index');
-$routes->get('/dashboard', 'Dashboard::index');
+$routes->get('dashboard', 'Dashboard::index');
 
-$routes->get('/produk', 'Product::index');
-$routes->get('/produk/list_tabel', 'Product::table_list');
-$routes->post('/produk/save_produk', 'Product::save_product');
-$routes->post('/produk/stok_produk_baru', 'Product::new_product_stock');
-$routes->post('/produk/save_stok_produk', 'Product::save_product_stock');
-$routes->get('/produk/hapus_produk/(:any)', 'Product::delete_product/$1');
-$routes->get('/produk/detail/(:any)', 'Product::detail/$1');
+$routes->group('auth', static function ($routes) {
+    $routes->get('/', 'Auth::index');
+    $routes->get('login', 'Auth::login');
+    $routes->get('logout', 'Auth::logout');
+});
 
-$routes->post('/transaksi/bayar_transaksi', 'Transaction::finish_transaction');
-$routes->post('/transaksi/save_transaksi', 'Transaction::save_transaction');
+$routes->group('produk', static function ($routes) {
+    $routes->get('/', 'Product::index');
+    $routes->get('list_tabel', 'Product::table_list');
+    $routes->post('save_produk', 'Product::save_product');
+    $routes->post('stok_produk_baru', 'Product::new_product_stock');
+    $routes->post('save_stok_produk', 'Product::save_product_stock');
+    $routes->get('hapus_produk/(:any)', 'Product::delete_product/$1');
+    $routes->get('detail/(:any)', 'Product::detail/$1');
+});
 
-$routes->get('/member', 'Member::index');
-$routes->post('/member/save_member', 'Member::save_member');
-$routes->get('/member/hapus_member/(:any)', 'Member::delete_member/$1');
+$routes->group('transaksi', static function ($routes) {
+    $routes->post('bayar_transaksi', 'Transaction::finish_transaction');
+    $routes->post('save_transaksi', 'Transaction::save_transaction');
+});
 
-$routes->get('/kasir', 'CashierEmployee::index');
-$routes->get('/kasir/detail/(:any)', 'CashierEmployee::detail/$1');
-$routes->post('/kasir/save_kasir', 'CashierEmployee::save_cashier_employee');
-$routes->get('/kasir/hapus_kasir/(:any)', 'CashierEmployee::delete_cashier_employee/$1');
+$routes->group('member', static function ($routes) {
+    $routes->get('/', 'Member::index');
+    $routes->post('save_member', 'Member::save_member');
+    $routes->get('hapus_member/(:any)', 'Member::delete_member/$1');
+});
+
+$routes->group('kasir', static function ($routes) {
+    $routes->get('/', 'CashierEmployee::index');
+    $routes->get('detail/(:any)', 'CashierEmployee::detail/$1');
+    $routes->post('save_kasir', 'CashierEmployee::save_cashier_employee');
+    $routes->get('hapus_kasir/(:any)', 'CashierEmployee::delete_cashier_employee/$1');
+});
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -1,5 +1,5 @@
 <?php
-$pages = ["", "Dashboard", "Produk", "Transaksi", "Member", "Kasir"];
+$pages = ["Home", "Dashboard", "Produk", "Transaksi", "Member", "Kasir"];
 ?>
 <div class="pr-14">
     <button type="button" class="aside-btn btn btn-square btn-ghost">

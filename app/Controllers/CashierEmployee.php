@@ -4,15 +4,18 @@ namespace App\Controllers;
 
 
 use App\Models\CashierEmployee_Model;
+use App\Models\Admin_Model;
 
 class CashierEmployee extends BaseController {
 
     protected $cashier_employee_model;
+    protected $admin_model;
 
     protected $data;
 
     public function __construct() {
         $this->cashier_employee_model = new CashierEmployee_Model();
+        $this->admin_model = new Admin_Model();
     }
 
     public function index() {
@@ -75,8 +78,9 @@ class CashierEmployee extends BaseController {
 
         if (!empty($email)) {
             $email_is_exist = count($this->cashier_employee_model->select('*')->where(['email' => $email])->get()->getResult());
+            $email_is_exist_in_admin = count($this->admin_model->select('*')->where(['email' => $email])->get()->getResult());
 
-            if ($email_is_exist > 0) {
+            if ($email_is_exist > 0 || $email_is_exist_in_admin > 0) {
                 return redirect()->route('kasir');
             }
 
