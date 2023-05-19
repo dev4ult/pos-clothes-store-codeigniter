@@ -18,8 +18,12 @@ class CashierEmployee extends BaseController {
         $this->admin_model = new Admin_Model();
     }
 
+
+
     public function index() {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
 
         $this->data['page_title'] = 'Kasir';
 
@@ -33,7 +37,10 @@ class CashierEmployee extends BaseController {
     }
 
     public function detail($cashier_id = "") {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
+
 
         $this->data['page_title'] = "Kasir";
 
@@ -44,7 +51,6 @@ class CashierEmployee extends BaseController {
 
         $this->data['cashier'] = $this->cashier_employee_model->select("*")->where(['id_kasir' => $cashier_id])->get()->getResult()[0];
 
-        // $this->data['']
 
         echo view('templates/header', $this->data);
         echo view('templates/aside');
@@ -56,7 +62,10 @@ class CashierEmployee extends BaseController {
 
     public function save_cashier_employee() {
 
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
+
 
         $validationRule = [
             'employee-photo' => [
@@ -135,7 +144,10 @@ class CashierEmployee extends BaseController {
     }
 
     public function delete_cashier_employee($cashier_id = "") {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
+
 
         if (empty($cashier_id) || count($this->cashier_employee_model->select('*')->where(['id_kasir' => $cashier_id])->get()->getResult()) == 0) {
             return redirect()->route('kasir');
@@ -144,11 +156,5 @@ class CashierEmployee extends BaseController {
         $this->cashier_employee_model->where(['id_kasir' => $cashier_id])->delete();
 
         return redirect()->route('kasir');
-    }
-
-    private function deny_cashier_entry() {
-        if (session()->get('role') == "cashier") {
-            return redirect()->route('dashboard');
-        }
     }
 }

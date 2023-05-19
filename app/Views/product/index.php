@@ -53,10 +53,12 @@ $product_stock_pid = array_map("returnId", $product_stock);
                 <div class="card-actions">
                     <h3 class="text-xl font-bold">Rp.<?= $product->harga ?></h3>
                 </div>
-                <div class="card-actions justify-end">
+                <div class="card-actions justify-end mb-3">
                     <?php foreach ($product_stock as $stock) : ?>
                     <?php if ($product_id == $stock->id_produk) : ?>
                     <div>
+                        <input type="number" id="<?= $stock->id_stok ?>-stock-available" value="<?= $stock->stok ?>"
+                            class="hidden" />
                         <input type="radio" id="<?= $stock->id_stok ?>" name="<?= $product_id ?>-size"
                             class="peer hidden" value="<?= $stock->jenis_ukuran ?>">
                         <label for="<?= $stock->id_stok ?>" class="btn btn-xs peer-checked:btn-accent">
@@ -66,7 +68,7 @@ $product_stock_pid = array_map("returnId", $product_stock);
                     <?php endif ?>
                     <?php endforeach ?>
                 </div>
-                <div class="card-actions justify-end mt-3">
+                <div class="card-actions justify-end mt-auto">
                     <div class="hidden">
                         <input type="text" id="<?= $product_id ?>-name" value="<?= $product->nama_baju ?>">
                         <input type="number" id="<?= $product_id ?>-price" value="<?= $product->harga ?>">
@@ -76,7 +78,7 @@ $product_stock_pid = array_map("returnId", $product_stock);
                         class="add-to-basket-btn btn btn-sm btn-primary btn-outline">Keranjang
                         +</button>
                     <?php else : ?>
-                    <h4 class="text-error">STOK KOSONG</h4>
+                    <h4 class="text-error font-semibold">STOK KOSONG</h4>
                     <?php endif ?>
                 </div>
             </div>

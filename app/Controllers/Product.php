@@ -43,7 +43,9 @@ class Product extends BaseController {
     }
 
     public function table_list() {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
 
         $this->data['page_title'] = 'Produk';
 
@@ -64,7 +66,9 @@ class Product extends BaseController {
     }
 
     public function detail($product_id = '') {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
 
         $this->data['page_title'] = 'Produk';
 
@@ -99,7 +103,9 @@ class Product extends BaseController {
     }
 
     public function save_product() {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
 
         $validationRule = [
             'product-img' => [
@@ -162,7 +168,9 @@ class Product extends BaseController {
     }
 
     function delete_product($product_id = "") {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
 
         if (empty($product_id) || count($this->product_model->select('*')->where(['id_produk' => $product_id])->get()->getResult()) == 0) {
             return redirect()->route('produk');
@@ -174,7 +182,9 @@ class Product extends BaseController {
     }
 
     function new_product_stock() {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
 
         $insert_product_stock = [
             'id_produk' => $this->request->getPost('product-id'),
@@ -190,7 +200,9 @@ class Product extends BaseController {
     }
 
     function save_product_stock() {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('produk');
+        }
 
         $product_id = $this->request->getPost('product-id');
 
@@ -217,9 +229,4 @@ class Product extends BaseController {
         return redirect()->to('/produk/detail/' . $product_id);
     }
 
-    private function deny_cashier_entry() {
-        if (session()->get('role') == "cashier") {
-            return redirect()->route('produk');
-        }
-    }
 }

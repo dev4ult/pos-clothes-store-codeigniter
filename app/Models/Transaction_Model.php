@@ -8,5 +8,5 @@ class Transaction_Model extends Model {
 
     protected $table = "transaksi";
 
-    protected $allowedFields = ['id_transaksi', 'id_member', 'status'];
+    protected $allowedFields = ['id_transaksi', 'id_member', 'id_kasir', 'status'];
 }
