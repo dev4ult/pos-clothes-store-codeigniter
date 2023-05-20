@@ -45,44 +45,49 @@ class Transaction extends BaseController {
 
         $this->data['transaction_details'] = $this->detail_transaction_model->select('*')->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')->where(['id_transaksi' => $transaction_id])->get()->getResult();
 
+
         echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
         echo view('transaction/detail', $this->data);
+        echo view('modals/edit_transaction_status_form', $this->data);
         echo view('templates/footer');
     }
 
     public function save_transaction() {
+        $transaction_id = $this->request->getPost('transaction-id');
         $total_order = $this->request->getPost('total-product-saved');
 
-        if ($total_order == 0) {
+        if ($total_order == 0 || session()->get('role') == 'admin') {
             return redirect()->route('transaksi');
         }
 
-        if (session()->get('role') == 'admin') {
-            return redirect()->route('dashboard');
+        if (empty($transaction_id)) {
+            $transaction_id = $this->insert_transaction("Tertunda", $total_order);
+        } else {
+            $this->update_transaction("Tertunda", $total_order, $transaction_id);
         }
 
-        $this->insert_transaction("Tertunda", $total_order);
-        return redirect()->route('transaksi');
+        return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 
     public function finish_transaction() {
+        $transaction_id = $this->request->getPost('transaction-id');
         $total_order = $this->request->getPost('total-product-saved');
 
-        if ($total_order == 0) {
+        if ($total_order == 0 || session()->get('role') == 'admin') {
             return redirect()->route('transaksi');
         }
 
-        if (session()->get('role') == 'admin') {
-            return redirect()->route('dashboard');
+        if (empty($transaction_id)) {
+            $transaction_id = $this->insert_transaction("Berhasil", $total_order);
+        } else {
+            $this->update_transaction("Berhasil", $total_order, $transaction_id);
         }
 
-        $this->insert_transaction("Berhasil", $total_order);
-        return redirect()->route('transaksi');
+        return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 
     private function insert_transaction($status = "Berhasil", $total_order = 0) {
-
         $transaction_data = [
             "id_kasir" => session()->get('user_id'),
             "status" => $status
@@ -110,11 +115,91 @@ class Transaction extends BaseController {
 
             $total_product = (int) $transaction_detail_data['jumlah_produk'];
 
-            if ($total_product < $max_stock) {
-                $this->stock_model->where(['id_stok' => $transaction_detail_data['id_stok']])->set(['stok' => $max_stock - $total_product])->update();
+            $this->stock_model->where(['id_stok' => $transaction_detail_data['id_stok']])->set(['stok' => $max_stock - $total_product])->update();
+        }
+
+        return $transaction_id;
+    }
+
+    private function update_transaction($status = "Berhasil", $total_order = 0, $transaction_id) {
+        if (!$this->transaction_model->where(['id_transaksi' => $transaction_id])->first()) {
+            return;
+        }
+
+        // if ($total_order == 0) {
+        //     foreach ($all_transaction_details as $detail) {
+        //         $this->stock_model->where(['id_stok' => $detail->id_stok])->set(['stok' => $detail->jumlah_produk + $detail->stok])->update();
+        //     }
+
+        //     $this->transaction_model->where(['id_transaksi' => $transaction_id])->delete();
+        // }
+
+        $this->transaction_model->where(['id_transaksi' => $transaction_id])->set(['status' => $status])->update();
+
+        $stock_transaction_ids = [];
+
+        for ($i = 1; $i <= $total_order; $i++) {
+            $insert_detail  = [
+                "id_transaksi" => $transaction_id,
+                "id_stok" => $this->request->getPost($i . "-stock-id"),
+                "jumlah_produk" => $this->request->getPost($i . "-stock-needed-to-buy"),
+            ];
+
+            $where_detail = [
+                "id_transaksi" => $transaction_id,
+                "id_stok" => $this->request->getPost($i . "-stock-id"),
+            ];
+
+            array_push($stock_transaction_ids, $where_detail);
+
+            $max_stock = (int) $this->request->getPost($i . '-max-stock');
+            $total_product = (int) $insert_detail['jumlah_produk'];
+
+            if (!$this->detail_transaction_model->where($where_detail)->first()) {
+                $this->detail_transaction_model->insert($insert_detail);
             } else {
-                $this->stock_model->where(['id_stok' => $transaction_detail_data['id_stok']])->delete();
+                $this->detail_transaction_model->where($where_detail)->set(['jumlah_produk' => $total_product])->update();
+            }
+
+            $this->stock_model->where(['id_stok' => $insert_detail['id_stok']])->set(['stok' => $max_stock - $total_product])->update();
+        }
+
+        $all_transaction_details = $this->detail_transaction_model->select("id_transaksi, detail_transaksi.id_stok, jumlah_produk, stok_produk.stok")->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->where(['id_transaksi' => $transaction_id])->get()->getResult();
+
+        foreach ($all_transaction_details as $detail) {
+            $delete = true;
+            foreach ($stock_transaction_ids as $id) {
+                if ($detail->id_transaksi == $id['id_transaksi'] && $detail->id_stok == $id['id_stok']) {
+                    $delete = false;
+                }
+            }
+            if ($delete) {
+                $this->detail_transaction_model->where(["id_transaksi" => $detail->id_transaksi, "id_stok" => $detail->id_stok])->delete();
+
+                $this->stock_model->where(['id_stok' => $detail->id_stok])->set(['stok' => $detail->jumlah_produk + $detail->stok]);
             }
         }
+    }
+
+    public function change_status() {
+        $transaction_id = $this->request->getPost('transaction-id');
+        $transaction_status = $this->request->getPost('transaction-status');
+
+        if (empty($transaction_status)) {
+            return redirect()->to('/transaksi/detail/' . $transaction_id);
+        }
+
+        $this->transaction_model->where(['id_transaksi' => $transaction_id])->set(['status' => $transaction_status])->update();
+
+        if ($transaction_status == "gagal") {
+            $all_transaction_details = $this->detail_transaction_model->select("detail_transaksi.id_stok, jumlah_produk, stok_produk.stok")->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->where(['id_transaksi' => $transaction_id])->get()->getResult();
+
+            foreach ($all_transaction_details as $detail) {
+                $this->stock_model->where(['id_stok' => $detail->id_stok])->set(['stok' => $detail->jumlah_produk + $detail->stok]);
+            }
+        }
+
+
+        return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 }

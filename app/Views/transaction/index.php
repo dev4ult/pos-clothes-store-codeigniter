@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Member</th>
+                    <th>Nama Member</th>
                     <th>Kasir yang Mengurus</th>
                     <th>Total Pembelian</th>
                     <th>Status</th>
@@ -43,7 +43,7 @@
                         <?php if ($transaction->nama_member) : ?>
                         <span class="font-medium"><?= $transaction->nama_member ?></span>
                         <?php else : ?>
-                        <span class="font-medium text-black/40">Tanpa Member</span>
+                        <span class="font-medium text-black/40">Tanpa Kartu Member</span>
                         <?php endif ?>
                     </td>
                     <td><?= $transaction->nama_kasir ?></td>
@@ -56,12 +56,12 @@
                         ?>
                     <td>Rp. <?= $total_prices ?></td>
                     <td>
-                        <div class="badge badge-<?= $transaction_status ?> badge-lg">
+                        <div class="badge badge-<?= $transaction_status ?> badge-outline badge-lg">
                             <?= ucwords($transaction->status) ?></div>
                     </td>
                     <td>
                         <a href="/transaksi/detail/<?= $transaction->id_transaksi ?>"
-                            class="btn btn-sm btn-accent btn-outline">detail</a>
+                            class="btn btn-sm btn-accent">detail</a>
                     </td>
                 </tr>
                 <?php $i++ ?>

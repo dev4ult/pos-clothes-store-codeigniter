@@ -41,6 +41,7 @@ $routes->group('auth', static function ($routes) {
 
 $routes->group('produk', static function ($routes) {
     $routes->get('/', 'Product::index');
+    $routes->get('ubah_transaksi/(:any)', 'Product::index/$1');
     $routes->get('list_tabel', 'Product::table_list');
     $routes->post('save_produk', 'Product::save_product');
     $routes->post('stok_produk_baru', 'Product::new_product_stock');
@@ -54,6 +55,7 @@ $routes->group('transaksi', static function ($routes) {
     $routes->get('detail/(:any)', 'Transaction::detail/$1');
     $routes->post('bayar_transaksi', 'Transaction::finish_transaction');
     $routes->post('save_transaksi', 'Transaction::save_transaction');
+    $routes->post('ubah_status', 'Transaction::change_status');
 });
 
 $routes->group('member', static function ($routes) {
@@ -68,8 +70,6 @@ $routes->group('kasir', static function ($routes) {
     $routes->post('save_kasir', 'CashierEmployee::save_cashier_employee');
     $routes->get('hapus_kasir/(:any)', 'CashierEmployee::delete_cashier_employee/$1');
 });
-
-
 
 /*
  * --------------------------------------------------------------------

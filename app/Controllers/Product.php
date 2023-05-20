@@ -6,6 +6,8 @@ use App\Models\Product_Model;
 use App\Models\Stock_Model;
 use App\Models\Category_Model;
 use App\Models\Size_Model;
+use App\Models\Transaction_Model;
+use App\Models\DetailTransaction_Model;
 
 class Product extends BaseController {
 
@@ -14,15 +16,29 @@ class Product extends BaseController {
     protected $stock_model;
     protected $category_model;
     protected $size_model;
+    protected $transaction_model;
+    protected $detail_transaction_model;
 
     public function __construct() {
         $this->product_model = new Product_Model();
         $this->stock_model = new Stock_Model();
         $this->category_model = new Category_Model();
         $this->size_model = new Size_Model();
+        $this->transaction_model = new Transaction_Model();
+        $this->detail_transaction_model = new DetailTransaction_Model();
     }
 
-    public function index() {
+    public function index($transaction_id = 0) {
+        $transaction = $this->transaction_model->join("member", "member.id_member = transaksi.id_member", 'left')->where(['id_transaksi' => $transaction_id])->first();
+        if ($transaction_id != 0 && !$transaction && $transaction['status'] != "tertunda") {
+            return redirect()->route('produk');
+        }
+
+        // deal with undone transaction
+        $this->data['transaction'] = $transaction;
+
+        $this->data['transaction_details'] = $this->detail_transaction_model->select('produk_baju.id_produk, produk_baju.nama_baju, stok_produk.id_stok, stok_produk.stok, ukuran.jenis_ukuran as ukuran, jumlah_produk, produk_baju.harga')->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->join('produk_baju', 'produk_baju.id_produk = stok_produk.id_produk')->join('ukuran', 'ukuran.id_ukuran = stok_produk.id_ukuran')->where(['id_transaksi' => $transaction_id])->get()->getResult();
+
         $this->data['page_title'] = 'Produk';
 
         $this->data['products'] = $this->product_model->select('id_produk, nama_baju, harga, gambar_baju, kategori.nama_kategori')->join('kategori', 'kategori.id_kategori = produk_baju.id_kategori')->get()->getResult();
@@ -228,5 +244,4 @@ class Product extends BaseController {
 
         return redirect()->to('/produk/detail/' . $product_id);
     }
-
 }

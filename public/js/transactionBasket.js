@@ -77,6 +77,26 @@ const detailTransactionEl = (index, productId, stockId, stockAvailable, name, to
 
 const basket = [];
 
+for (let i = 1; i <= totalProductSaved.value; i++) {
+  const productId = document.querySelector('input[name="' + i + '-product-id"]').value;
+  const stockId = document.querySelector('input[name="' + i + '-stock-id"]').value;
+  const stockAvailable = document.querySelector('input[name="' + i + '-max-stock"]').value;
+  const name = document.querySelector('input[name="' + i + '-product-name"]').value;
+  const price = document.querySelector('input[name="' + i + '-product-price"]').value;
+  const total = parseInt(document.querySelector('input[name="' + i + '-stock-needed-to-buy"]').value);
+  const size = document.querySelector('input[name="' + i + '-size"]').value;
+
+  basket.push({
+    product_id: productId,
+    stock_id: stockId,
+    stock_available: stockAvailable,
+    name,
+    price,
+    total,
+    size,
+  });
+}
+
 for (let i = 0; i < addToBasketBtn.length; i++) {
   addToBasketBtn[i].addEventListener('click', (e) => {
     const productId = e.target.getAttribute('id').split('-')[0];
@@ -124,6 +144,16 @@ for (let i = 0; i < addToBasketBtn.length; i++) {
 }
 
 const totalProductBasket = document.getElementById('total-product-basket');
+
+if (basket.length != 0) {
+  totalProductBasket.classList.remove('badge-accent');
+  totalProductBasket.classList.add('badge-error');
+
+  totalProductBasket.innerHTML = `${basket.length}`;
+
+  finishTransactionBtn.classList.remove('hidden');
+  saveTransactionBtn.classList.remove('hidden');
+}
 
 document.addEventListener('click', (e) => {
   const el = e.target;

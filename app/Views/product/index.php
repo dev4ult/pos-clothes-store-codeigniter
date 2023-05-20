@@ -12,8 +12,10 @@ $product_stock_pid = array_map("returnId", $product_stock);
             <a href="/dashboard" class="btn btn-primary btn-square">
                 <img src="<?= base_url('./images/dashboard.png') ?>" class="w-7" alt="dashboard">
             </a>
+            <?php if(session()->get('role') != "cashier") : ?>
             <a href="/produk/list_tabel" for="product-form-modal" class="btn btn-outline btn-primary">Lihat Tabel /
                 Edit</a>
+            <?php endif ?>
             <div class="form-control">
                 <div class="input-group">
                     <select class="select select-bordered">
