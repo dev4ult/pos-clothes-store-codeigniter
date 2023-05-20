@@ -148,7 +148,6 @@ class CashierEmployee extends BaseController {
             return redirect()->route('dashboard');
         }
 
-
         if (empty($cashier_id) || count($this->cashier_employee_model->select('*')->where(['id_kasir' => $cashier_id])->get()->getResult()) == 0) {
             return redirect()->route('kasir');
         }

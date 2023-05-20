@@ -13,6 +13,8 @@ const totalProductSaved = document.getElementById('total-product-saved');
 const finishTransactionBtn = document.getElementById('finish-transaction-btn');
 const saveTransactionBtn = document.getElementById('save-transaction-btn');
 
+const inputMaxStockHistory = document.getElementsByClassName('max-stock-history');
+
 const transactionDetailContainer = document.getElementById('transaction-detail-container');
 const detailTransactionEl = (index, productId, stockId, stockAvailable, name, total, size, price) => {
   const tr = document.createElement('tr');
@@ -41,7 +43,13 @@ const detailTransactionEl = (index, productId, stockId, stockAvailable, name, to
   // (it is just update or delete if the stock is empty after transaction)
   inputMaxStock.setAttribute('name', `${index}-max-stock`);
   inputMaxStock.classList.add('hidden');
+
   inputMaxStock.value = stockAvailable;
+  for (let i = 0; i < inputMaxStockHistory.length; i++) {
+    if (inputMaxStockHistory[i].getAttribute('id').split('-')[0] == stockId) {
+      inputMaxStock.value = inputMaxStockHistory[i].value;
+    }
+  }
   tr.appendChild(inputMaxStock);
 
   const tdSize = document.createElement('td');
