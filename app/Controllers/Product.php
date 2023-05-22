@@ -31,6 +31,7 @@ class Product extends BaseController {
     public function index($transaction_id = 0) {
         $transaction = $this->transaction_model->join("member", "member.id_member = transaksi.id_member", 'left')->where(['id_transaksi' => $transaction_id])->first();
         if ($transaction_id != 0 && !$transaction && $transaction['status'] != "tertunda") {
+            session()->setFlashdata("error", "ID Transaksi tidak diketahui");
             return redirect()->route('produk');
         }
 
@@ -77,6 +78,7 @@ class Product extends BaseController {
 
         echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
+        echo view('modals/new_product_form');
         echo view('product/table_list', $this->data);
         echo view('templates/footer');
     }
@@ -88,15 +90,10 @@ class Product extends BaseController {
 
         $this->data['page_title'] = 'Produk';
 
-        if (empty($product_id)) {
-            return redirect()->route('produk/list_tabel');
-        }
-
-        $this->data['page_title'] = 'Produk';
-
         $this->data['product'] = $this->product_model->select('*')->join('kategori', 'kategori.id_kategori = produk_baju.id_kategori')->where(['id_produk' => $product_id])->get()->getResult();
 
-        if (empty($this->data['product'])) {
+        if (empty($product_id) || empty($this->data['product'])) {
+            session()->setFlashdata("error", "ID Produk tidak diketahui");
             return redirect()->route('produk/list_tabel');
         }
 
@@ -133,6 +130,7 @@ class Product extends BaseController {
         ];
 
         if (!$this->validate($validationRule)) {
+            session()->setFlashdata("error", "Gambar produk tidak sesuai format");
             return redirect()->route('produk');
         }
 
@@ -162,6 +160,7 @@ class Product extends BaseController {
             $update = $this->product_model->where(['id_produk' => $product_id])->set($update_product)->update();
 
             if ($update) {
+                session()->setFlashdata("warning", "Data produk berhasil diubah");
                 return redirect()->to("produk/detail/" . $product_id);
             }
         }
@@ -179,7 +178,8 @@ class Product extends BaseController {
         $save_product_stock = $this->stock_model->insert($insert_product_stock);
 
         if ($save_product && $save_product_stock) {
-            return redirect()->route('produk');
+            session()->setFlashdata("success", "Produk baru berhasil ditambah");
+            return redirect()->route('produk/list_tabel');
         }
     }
 
@@ -188,12 +188,14 @@ class Product extends BaseController {
             return redirect()->route('produk');
         }
 
-        if (empty($product_id) || count($this->product_model->select('*')->where(['id_produk' => $product_id])->get()->getResult()) == 0) {
+        if (empty($product_id) || !$this->product_model->where(['id_produk' => $product_id])->first()) {
+            session()->setFlashdata("error", "ID Produk tidak diketahui");
             return redirect()->route('produk');
         }
 
         $this->product_model->where(['id_produk' => $product_id])->delete();
 
+        session()->setFlashdata("success", "Produk berhasil dihapus");
         return redirect()->route('produk/list_tabel');
     }
 
@@ -211,6 +213,7 @@ class Product extends BaseController {
         $save_product_stock = $this->stock_model->insert($insert_product_stock);
 
         if ($save_product_stock) {
+            session()->setFlashdata("success", "Stok baru berhasil ditambahkan");
             return redirect()->to('produk/detail/' . $insert_product_stock['id_produk']);
         }
     }
@@ -242,6 +245,7 @@ class Product extends BaseController {
             }
         }
 
+        session()->setFlashdata("warning", "Stok produk berhasil diubah");
         return redirect()->to('/produk/detail/' . $product_id);
     }
 }

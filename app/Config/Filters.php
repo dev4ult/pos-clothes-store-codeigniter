@@ -32,11 +32,11 @@ class Filters extends BaseConfig {
         'before' => [
             // 'honeypot',
             // 'csrf',
-            'usersAuth' => [
-                'except' => [
-                    'auth', 'auth/*', 'home'
-                ]
-            ],
+            // 'usersAuth' => [
+            //     'except' => [
+            //         'auth', 'auth/*', 'home'
+            //     ]
+            // ],
             // 'invalidchars',
         ],
         'after' => [

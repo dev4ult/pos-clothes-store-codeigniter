@@ -1,13 +1,18 @@
-<div class="py-1.5 w-full">
-    <h1 class="font-semibold text-3xl mb-10">Detail Transaksi</h1>
+<div class="w-full">
+    <div class="flex gap-10 items-center justify-between mb-10">
+        <h1 class="font-semibold text-3xl">Detail Transaksi</h1>
+        <a href="/transaksi" class="btn ">
+            <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
+        </a>
+    </div>
     <div class="flex flex-col gap-4 border-2 rounded-2xl p-8 w-full">
         <div class="flex gap-5 justify-between">
             <div>
                 <h3 class="badge badge-outline font-semibold mb-2">Member</h3>
                 <?php if (!empty($transaction->nama_member)) : ?>
-                <h5 class="text-xl"><?= $transaction->nama_member ?></h5>
+                    <h5 class="text-xl"><?= $transaction->nama_member ?></h5>
                 <?php else : ?>
-                <h5 class="text-xl text-black/40 font-medium">Tanpa Kartu Member</h5>
+                    <h5 class="text-xl text-black/40 font-medium">Tanpa Kartu Member</h5>
                 <?php endif ?>
             </div>
             <div class="text-right">
@@ -45,14 +50,14 @@
                         <?php $total_prices = 0 ?>
                         <?php $i = 1 ?>
                         <?php foreach ($transaction_details as $detail) : ?>
-                        <?php $total_prices += $detail->jumlah_produk * $detail->harga ?>
-                        <tr>
-                            <th><?= $i ?></th>
-                            <td><?= $detail->nama_baju ?></td>
-                            <td><?= $detail->jumlah_produk ?></td>
-                            <td>Rp. <?= $detail->jumlah_produk * $detail->harga ?></td>
-                        </tr>
-                        <?php $i++ ?>
+                            <?php $total_prices += $detail->jumlah_produk * $detail->harga ?>
+                            <tr>
+                                <th><?= $i ?></th>
+                                <td><?= $detail->nama_baju ?></td>
+                                <td><?= $detail->jumlah_produk ?></td>
+                                <td>Rp. <?= $detail->jumlah_produk * $detail->harga ?></td>
+                            </tr>
+                            <?php $i++ ?>
                         <?php endforeach ?>
                         <tr class="active">
                             <td></td>
@@ -66,13 +71,13 @@
     </div>
     <div class="text-right mt-4">
         <?php if ($transaction->status == "gagal" || $transaction->status == "berhasil") : ?>
-        <button class="btn btn-accent btn-disabled">status tidak bisa diubah</button>
+            <button class="btn btn-accent btn-disabled">status tidak bisa diubah</button>
         <?php else : ?>
-        <div class="flex justify-end gap-3">
-            <a href="/produk/ubah_transaksi/<?= $transaction->id_transaksi ?>" class="btn btn-accent btn-outline">ubah
-                orderan</a>
-            <label for="edit-transaction-status-form-modal" class="btn btn-accent">ubah status</label>
-        </div>
+            <div class="flex justify-end gap-3">
+                <a href="/produk/ubah_transaksi/<?= $transaction->id_transaksi ?>" class="btn btn-accent btn-outline">ubah
+                    orderan</a>
+                <label for="edit-transaction-status-form-modal" class="btn btn-accent">ubah status</label>
+            </div>
         <?php endif ?>
     </div>
 </div>

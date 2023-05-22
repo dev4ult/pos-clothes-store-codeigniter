@@ -1,8 +1,11 @@
 <div class="w-full">
-    <div class="mb-10">
-        <label for="product-form-modal" class="btn btn-primary">tambah +</label>
+    <div class="flex gap-3 mb-10">
+        <a href="/produk" class="btn ">
+            <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
+        </a>
+        <label for="new-product-form-modal" class="btn btn-primary">tambah +</label>
     </div>
-
+    <?php include("../app/Views/flash.php") ?>
     <div class="overflow-x-auto">
         <table class="table w-full">
             <thead>

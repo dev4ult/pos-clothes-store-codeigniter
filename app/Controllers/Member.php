@@ -44,9 +44,8 @@ class Member extends BaseController {
 
         $member_id = $this->request->getPost('member-id');
         if (!empty($member_id)) {
-
             $this->member_model->where(['id_member' => $member_id])->set($insert_data)->update();
-
+            session()->setFlashdata('warning', 'Data member berhasil diubah');
             return redirect()->route('member');
         }
 
@@ -57,33 +56,33 @@ class Member extends BaseController {
             $insert_data['id_member'] = $this->get_unique_id();
             $is_exist = count($this->member_model->select('*')->where(['id_member' => $insert_data['id_member']])->get()->getResult());
         }
-        $this->member_model->insert($insert_data);
 
+        $this->member_model->insert($insert_data);
+        session()->setFlashdata('success', 'Member baru berhasil ditambahkan');
 
         return redirect()->route('member');
     }
 
     public function delete_member($member_id = "") {
-        $this->deny_cashier_entry();
+        if (session()->get('role') == "cashier") {
+            return redirect()->route('dashboard');
+        }
 
         if (empty($member_id)) {
+            session()->setFlashdata("error", "ID Member tidak diketahui");
             return redirect()->route('member');
         }
 
         $is_exist = count($this->member_model->select('*')->where(['id_member' => $member_id])->get()->getResult());
 
         if (!$is_exist) {
+            session()->setFlashdata("error", "ID Member tidak diketahui");
             return redirect()->route('member');
         }
 
         $this->member_model->where(['id_member' => $member_id])->delete();
 
+        session()->setFlashdata("success", "Member berhasil dihapus");
         return redirect()->route('member');
-    }
-
-    private function deny_cashier_entry() {
-        if (session()->get('role') == "cashier") {
-            return redirect()->route('dashboard');
-        }
     }
 }

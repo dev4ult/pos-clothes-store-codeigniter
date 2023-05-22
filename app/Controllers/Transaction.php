@@ -36,6 +36,7 @@ class Transaction extends BaseController {
 
     public function detail($transaction_id = "") {
         if (empty($transaction_id) || !$this->transaction_model->where(['id_transaksi' => $transaction_id])->first()) {
+            session()->setFlashdata("error", "ID Transaksi tidak diketahui");
             return redirect()->route('transaksi');
         }
 
@@ -63,8 +64,10 @@ class Transaction extends BaseController {
 
         if (empty($transaction_id)) {
             $transaction_id = $this->insert_transaction("Tertunda", $total_order);
+            session()->setFlashdata("success", "Transaksi baru berhasil disimpan");
         } else {
             $this->update_transaction("Tertunda", $total_order, $transaction_id);
+            session()->setFlashdata("warning", "Transaksi berhasil diubah");
         }
 
         return redirect()->to('/transaksi/detail/' . $transaction_id);
@@ -84,6 +87,7 @@ class Transaction extends BaseController {
             $this->update_transaction("Berhasil", $total_order, $transaction_id);
         }
 
+        session()->setFlashdata("success", "Transaksi terbayarkan");
         return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 
@@ -186,6 +190,7 @@ class Transaction extends BaseController {
         $transaction_status = $this->request->getPost('transaction-status');
 
         if (empty($transaction_status)) {
+            session()->setFlashdata("error", "Silahkan pilih status terlebih dahulu");
             return redirect()->to('/transaksi/detail/' . $transaction_id);
         }
 
@@ -199,7 +204,7 @@ class Transaction extends BaseController {
             }
         }
 
-
+        session()->setFlashdata("warning", "Transaksi berhasil diubah statusnya");
         return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 }

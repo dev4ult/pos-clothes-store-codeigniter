@@ -1,9 +1,14 @@
-<div class="py-1.5 flex-grow">
-    <h1 class="font-semibold text-3xl mb-10">Detail Pegawai Kasir</h1>
+<div class="w-full">
+    <div class="flex gap-10 items-center justify-between mb-10">
+        <h1 class="font-semibold text-3xl">Detail Pegawai Kasir</h1>
+        <a href="/kasir" class="btn ">
+            <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
+        </a>
+    </div>
+    <?php include("../app/Views/flash.php") ?>
     <div class="flex gap-5 border-2 rounded-2xl p-8 w-full">
         <div class="flex-grow min-w-[20rem]">
             <img src="data:image/jpg;base64,<?= base64_encode($cashier->foto_profil) ?>" class="h-96 w-80 object-cover rounded-xl" alt="product">
-
         </div>
         <div class="w-0.5 bg-slate-300"></div>
         <div class="flex flex-col gap-3">

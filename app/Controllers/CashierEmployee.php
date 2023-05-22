@@ -18,8 +18,6 @@ class CashierEmployee extends BaseController {
         $this->admin_model = new Admin_Model();
     }
 
-
-
     public function index() {
         if (session()->get('role') == "cashier") {
             return redirect()->route('dashboard');
@@ -41,16 +39,14 @@ class CashierEmployee extends BaseController {
             return redirect()->route('dashboard');
         }
 
-
         $this->data['page_title'] = "Kasir";
 
         if (empty($cashier_id) || count($this->cashier_employee_model->select("*")->where(['id_kasir' => $cashier_id])->get()->getResult()) == 0) {
+            session()->setFlashdata("warning", "ID Kasir tidak diketahui");
             return redirect()->route('kasir');
         }
 
-
         $this->data['cashier'] = $this->cashier_employee_model->select("*")->where(['id_kasir' => $cashier_id])->get()->getResult()[0];
-
 
         echo view('templates/header', $this->data);
         echo view('templates/aside');
@@ -61,11 +57,9 @@ class CashierEmployee extends BaseController {
 
 
     public function save_cashier_employee() {
-
         if (session()->get('role') == "cashier") {
             return redirect()->route('dashboard');
         }
-
 
         $validationRule = [
             'employee-photo' => [
@@ -77,6 +71,7 @@ class CashierEmployee extends BaseController {
         ];
 
         if (!$this->validate($validationRule)) {
+            session()->setFlashdata("warning", "Foto profil kasir tidak sesuai format");
             return redirect()->route('kasir');
         }
 
@@ -121,6 +116,7 @@ class CashierEmployee extends BaseController {
             $update = $this->cashier_employee_model->where(['id_kasir' => $cashier_id])->set($update_cashier)->update();
 
             if ($update) {
+                session()->setFlashdata("warning", "Data kasir berhasil diubah");
                 return redirect()->to('kasir/detail/' . $cashier_id);
             }
         }
@@ -139,6 +135,7 @@ class CashierEmployee extends BaseController {
         $save = $this->cashier_employee_model->insert($insert_cashier);
 
         if ($save) {
+            session()->setFlashdata("success", "Kasir baru berhasil ditambah");
             return redirect()->route('kasir');
         }
     }
@@ -148,12 +145,14 @@ class CashierEmployee extends BaseController {
             return redirect()->route('dashboard');
         }
 
-        if (empty($cashier_id) || count($this->cashier_employee_model->select('*')->where(['id_kasir' => $cashier_id])->get()->getResult()) == 0) {
+        if (empty($cashier_id) || !$this->cashier_employee_model->where(['id_kasir' => $cashier_id])->first()) {
+            session()->setFlashdata("error", "ID Kasir tidak diketahui");
             return redirect()->route('kasir');
         }
 
         $this->cashier_employee_model->where(['id_kasir' => $cashier_id])->delete();
 
+        session()->setFlashdata("success", "Kasir berhasil dihapus");
         return redirect()->route('kasir');
     }
 }
