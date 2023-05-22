@@ -6,12 +6,15 @@ namespace App\Controllers;
 use App\Models\Transaction_Model;
 use App\Models\DetailTransaction_Model;
 use App\Models\Stock_Model;
+use App\Models\Member_Model;
+
 
 class Transaction extends BaseController {
 
     protected $transaction_model;
     protected $detail_transaction_model;
     protected $stock_model;
+    protected $member_model;
 
     protected $data;
 
@@ -19,6 +22,7 @@ class Transaction extends BaseController {
         $this->transaction_model = new Transaction_Model();
         $this->detail_transaction_model = new DetailTransaction_Model();
         $this->stock_model = new Stock_Model();
+        $this->member_model = new Member_Model();
     }
 
     public function index() {
@@ -100,7 +104,13 @@ class Transaction extends BaseController {
         $member_id = $this->request->getPost('member-id');
         if (!empty($member_id)) {
             $transaction_data['id_member'] = $member_id;
+
+            if (!$this->member_model->where(['id_member' => $member_id])->first()) {
+                session()->setFlashdata("error", "ID Member tidak diketahui");
+                return redirect()->route('produk');
+            }
         }
+
 
         $this->transaction_model->insert($transaction_data);
         $transaction_id = $this->transaction_model->getInsertID();
