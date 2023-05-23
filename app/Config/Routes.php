@@ -52,6 +52,7 @@ $routes->group('produk', static function ($routes) {
 
 $routes->group('transaksi', static function ($routes) {
     $routes->get('/', 'Transaction::index');
+    $routes->get('print_pdf', 'Transaction::print_pdf');
     $routes->get('detail/(:any)', 'Transaction::detail/$1');
     $routes->post('bayar_transaksi', 'Transaction::finish_transaction');
     $routes->post('save_transaksi', 'Transaction::save_transaction');

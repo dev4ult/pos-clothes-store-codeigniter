@@ -8,6 +8,8 @@ use App\Models\DetailTransaction_Model;
 use App\Models\Stock_Model;
 use App\Models\Member_Model;
 
+use Dompdf\Dompdf;
+
 
 class Transaction extends BaseController {
 
@@ -15,6 +17,7 @@ class Transaction extends BaseController {
     protected $detail_transaction_model;
     protected $stock_model;
     protected $member_model;
+
 
     protected $data;
 
@@ -216,5 +219,24 @@ class Transaction extends BaseController {
 
         session()->setFlashdata("warning", "Transaksi berhasil diubah statusnya");
         return redirect()->to('/transaksi/detail/' . $transaction_id);
+    }
+
+    public function print_pdf() {
+        $dompdf = new Dompdf();
+
+        $this->data['transactions'] = $this->transaction_model->select('id_transaksi, member.nama_lengkap as nama_member, kasir.nama_lengkap as nama_kasir, status')->join('member', 'member.id_member = transaksi.id_member', 'left')->join('kasir', 'kasir.id_kasir = transaksi.id_kasir')->get()->getResult();
+
+        $this->data['detail_prices'] = $this->detail_transaction_model->select('id_transaksi, produk_baju.harga as harga, jumlah_produk')->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')->get()->getResult();
+
+
+        $html = view("transaction/pdf_table", $this->data);
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper("A4", "Landscape");
+        $dompdf->render();
+        $dompdf->stream();
+
+        return redirect()->route('transaksi');
     }
 }
