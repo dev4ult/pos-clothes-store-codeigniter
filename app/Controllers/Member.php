@@ -36,6 +36,13 @@ class Member extends BaseController {
         echo view('templates/footer');
     }
 
+    public function search_member() {
+        $keyword = $this->request->getPost('keyword');
+        $this->data['members'] = $this->member_model->select('*')->like('id_member', $keyword)->orLike('nama_lengkap', $keyword)->orLike('no_telepon', $keyword)->get()->getResult();
+
+        return view('member/search_item', $this->data);
+    }
+
     public function save_member() {
         $insert_data = [
             'nama_lengkap' => $this->request->getPost('full-name'),

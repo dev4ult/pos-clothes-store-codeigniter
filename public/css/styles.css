@@ -2009,39 +2009,6 @@ html{
   border-radius: var(--rounded-btn, 0.5rem);
 }
 
-.collapse.collapse{
-  visibility: visible;
-}
-
-.collapse{
-  position: relative;
-  display: grid;
-  overflow: hidden;
-  grid-template-rows: 1fr auto;
-}
-
-.collapse-title,
-.collapse > input[type="checkbox"],
-.collapse-content{
-  grid-column-start: 1;
-  grid-row-start: 1;
-}
-
-.collapse > input[type="checkbox"]{
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  opacity: 0;
-}
-
-.collapse-open .collapse-content,
-.collapse:focus:not(.collapse-close) .collapse-content,
-.collapse:not(.collapse-close)
-  input[type="checkbox"]:checked
-  ~ .collapse-content{
-  max-height: none;
-}
-
 .dropdown{
   position: relative;
   display: inline-block;
@@ -3347,40 +3314,6 @@ html{
   background-image: linear-gradient(45deg, transparent 65%, hsl(var(--chkbg)) 65.99%), linear-gradient(-45deg, transparent 75%, hsl(var(--chkbg)) 75.99%), linear-gradient(45deg, hsl(var(--chkbg)) 40%, transparent 40.99%), linear-gradient(-45deg, hsl(var(--chkbg)) 30%, hsl(var(--chkfg)) 30.99%, hsl(var(--chkfg)) 40%, transparent 40.99%), linear-gradient(45deg, hsl(var(--chkfg)) 50%, hsl(var(--chkbg)) 50.99%);
 }
 
-.collapse:focus-visible{
-  outline: 2px solid hsl(var(--nf));
-  outline-offset: 2px;
-}
-
-.collapse:not(.collapse-open):not(.collapse-close) input[type="checkbox"],
-.collapse:not(.collapse-open):not(.collapse-close) .collapse-title{
-  cursor: pointer;
-}
-
-.collapse:focus:not(.collapse-open):not(.collapse-close) .collapse-title{
-  cursor: unset;
-}
-
-:where(.collapse > input[type="checkbox"]){
-  z-index: 1;
-}
-
-.collapse-title,
-:where(.collapse > input[type="checkbox"]){
-  width: 100%;
-  padding: 1rem;
-  padding-right: 3rem;
-  min-height: 3.75rem;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.collapse-open :where(.collapse-content),
-.collapse:focus:not(.collapse-close) :where(.collapse-content),
-.collapse:not(.collapse-close) :where(input[type="checkbox"]:checked ~ .collapse-content){
-  padding-bottom: 1rem;
-  transition: padding 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
 .drawer-toggle:focus-visible ~ .drawer-content .drawer-button.btn-primary{
   outline: 2px solid hsl(var(--p));
 }
@@ -4203,10 +4136,6 @@ html{
   visibility: visible;
 }
 
-.collapse{
-  visibility: collapse;
-}
-
 .static{
   position: static;
 }
@@ -4221,10 +4150,6 @@ html{
 
 .relative{
   position: relative;
-}
-
-.sticky{
-  position: sticky;
 }
 
 .-right-2{
@@ -4457,10 +4382,6 @@ html{
 
 .flex-grow{
   flex-grow: 1;
-}
-
-.border-collapse{
-  border-collapse: collapse;
 }
 
 .-translate-x-full{
@@ -4721,6 +4642,10 @@ html{
   font-weight: 600;
 }
 
+.italic{
+  font-style: italic;
+}
+
 .text-black\/40{
   color: rgb(0 0 0 / 0.4);
 }
@@ -4738,6 +4663,16 @@ html{
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-slate-200{
+  --tw-text-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-text-opacity));
+}
+
+.text-slate-300{
+  --tw-text-opacity: 1;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
 }
 
 .antialiased{

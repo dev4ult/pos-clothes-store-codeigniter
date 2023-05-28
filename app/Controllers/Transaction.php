@@ -18,7 +18,6 @@ class Transaction extends BaseController {
     protected $stock_model;
     protected $member_model;
 
-
     protected $data;
 
     public function __construct() {
@@ -39,6 +38,16 @@ class Transaction extends BaseController {
         echo view('templates/aside', $this->data);
         echo view('transaction/index', $this->data);
         echo view('templates/footer');
+    }
+
+    public function search_transaction() {
+        $keyword = $this->request->getPost('keyword');
+
+        $this->data['transactions'] = $this->transaction_model->select('id_transaksi, member.nama_lengkap as nama_member, kasir.nama_lengkap as nama_kasir, status')->join('member', 'member.id_member = transaksi.id_member', 'left')->join('kasir', 'kasir.id_kasir = transaksi.id_kasir')->like('member.nama_lengkap', $keyword)->orLike('kasir.nama_lengkap', $keyword)->orLike('status', $keyword)->get()->getResult();
+
+        $this->data['detail_prices'] = $this->detail_transaction_model->select('id_transaksi, produk_baju.harga as harga, jumlah_produk')->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')->get()->getResult();
+
+        return view('transaction/search_item', $this->data);
     }
 
     public function detail($transaction_id = "") {

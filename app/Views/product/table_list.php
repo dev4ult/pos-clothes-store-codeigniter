@@ -1,9 +1,14 @@
 <div class="w-full">
-    <div class="flex gap-3 mb-10">
-        <a href="/produk" class="btn ">
-            <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
-        </a>
-        <label for="new-product-form-modal" class="btn btn-primary">tambah +</label>
+    <div class="flex justify-between gap-10 mb-10">
+        <div class="flex gap-3">
+            <a href="/produk" class="btn ">
+                <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
+            </a>
+            <label for="new-product-form-modal" class="btn btn-primary">tambah +</label>
+        </div>
+        <div class="form-control">
+            <input type="text" placeholder="Cari Produk ..." name="search-key" id="produk-search-table" class="input input-bordered" />
+        </div>
     </div>
     <?php include("../app/Views/flash.php") ?>
     <div class="overflow-x-auto">
@@ -18,7 +23,7 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="item-container">
                 <?php $i = 1 ?>
                 <?php foreach ($products as $product) : ?>
                     <?php

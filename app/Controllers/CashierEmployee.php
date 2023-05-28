@@ -34,6 +34,14 @@ class CashierEmployee extends BaseController {
         echo view('templates/footer');
     }
 
+    public function search_cashier() {
+        $keyword = $this->request->getPost('keyword');
+
+        $this->data['cashiers'] = $this->cashier_employee_model->select('*')->like('nama_lengkap', $keyword)->orLike('no_telepon', $keyword)->orLike('email', $keyword)->get()->getResult();
+
+        return view('cashier/search_item', $this->data);
+    }
+
     public function detail($cashier_id = "") {
         if (session()->get('role') == "cashier") {
             return redirect()->route('dashboard');

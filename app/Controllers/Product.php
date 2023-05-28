@@ -55,8 +55,31 @@ class Product extends BaseController {
         echo view('templates/header', $this->data);
         echo view('templates/aside', $this->data);
         echo view('product/index', $this->data);
-        echo view('product/transaction_aside', $this->data);
+        if (session()->get('role') != "admin") {
+            echo view('product/transaction_aside', $this->data);
+        }
         echo view('templates/footer');
+    }
+
+    public function search_product() {
+        $category = $this->request->getPost('category');
+        if (!empty($category)) {
+            $keyword = $category;
+        } else {
+            $keyword = $this->request->getPost('keyword');
+        }
+
+        $view = !empty($this->request->getPost('view')) ?  '_' . $this->request->getPost('view') : '';
+
+        $this->data['products'] = $this->product_model->select('id_produk, nama_baju, harga, gambar_baju, kategori.nama_kategori')->join('kategori', 'kategori.id_kategori = produk_baju.id_kategori')->like('nama_baju', $keyword)->orLike('harga', $keyword)->orLike('kategori.nama_kategori', $keyword)->get()->getResult();
+
+
+        $this->data['product_stock'] = $this->stock_model->select('id_stok, stok_produk.id_produk, ukuran.jenis_ukuran, stok')
+            ->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')
+            ->join('ukuran', 'stok_produk.id_ukuran = ukuran.id_ukuran')->get()->getResult();
+
+
+        return view('product/search_item' . $view, $this->data);
     }
 
     public function table_list() {
