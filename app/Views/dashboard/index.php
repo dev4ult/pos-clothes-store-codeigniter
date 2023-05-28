@@ -29,24 +29,25 @@
             </a>
 
         </div>
-        <div class="w-full">
+        <div>
             <div class="stats text-primary-content border-2 border-black w-full">
-                <div class="stat border-r-2 border-black"">
+                <div class="stat border-r-2 border-black">
                     <div class=" stat-title">Member</div>
-                <div class="stat-value"><?= $total_product ?> Terdaftar</div>
-                <div class="stat-actions">
-                    <a href="/member" class="btn btn-sm btn-outline">List Member</a>
+                    <div class="stat-value"><?= $total_product ?> Terdaftar</div>
+                    <div class="stat-actions">
+                        <a href="/member" class="btn btn-sm btn-outline">List Member</a>
+                    </div>
                 </div>
-            </div>
-            <div class="stat w-full bg-black text-white">
-                <div class="stat-title text-white">Kasir</div>
-                <div class="stat-value"><?= $total_product ?> Pegawai</div>
-                <div class="stat-actions">
-                    <a href="/kasir" class="btn btn-sm btn-accent btn-outline">List Pegawai</a>
-                </div>
+                <?php if (session()->get('role') != 'cashier') : ?>
+                    <div class="stat w-full bg-black text-white">
+                        <div class="stat-title text-white">Kasir</div>
+                        <div class="stat-value"><?= $total_product ?> Pegawai</div>
+                        <div class="stat-actions">
+                            <a href="/kasir" class="btn btn-sm btn-accent btn-outline">List Pegawai</a>
+                        </div>
+                    </div>
+                <?php endif ?>
             </div>
         </div>
-
     </div>
-</div>
 </div>

@@ -222,7 +222,7 @@ class Transaction extends BaseController {
             $all_transaction_details = $this->detail_transaction_model->select("detail_transaksi.id_stok, jumlah_produk, stok_produk.stok")->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->where(['id_transaksi' => $transaction_id])->get()->getResult();
 
             foreach ($all_transaction_details as $detail) {
-                $this->stock_model->where(['id_stok' => $detail->id_stok])->set(['stok' => $detail->jumlah_produk + $detail->stok]);
+                $this->stock_model->where(['id_stok' => $detail->id_stok])->set(['stok' => $detail->jumlah_produk + $detail->stok])->update();
             }
         }
 
