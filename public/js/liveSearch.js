@@ -6,16 +6,12 @@ $(document).ready(function () {
       url: `/${item}/cari_${item}`,
       data: {
         keyword: this.value,
-        view: this.getAttribute('id').split('-')[2] ? this.getAttribute('id').split('-')[2] : '',
+        view: this.getAttribute('id').split('-')[2] != undefined ? this.getAttribute('id').split('-')[2] : '',
       },
       cache: false,
       success: function (data) {
         $('#item-container').html(data);
       },
     });
-
-    if (this.value != '') {
-      $('select[name="select-category"]').val('empty').change();
-    }
   });
 });

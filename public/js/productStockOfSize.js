@@ -1,5 +1,3 @@
-const productStock = document.getElementsByClassName('.product-stock');
-
 const trHead = document.getElementById('tr-head');
 const tbodyData = document.getElementById('tbody-data');
 const trData = document.getElementsByClassName('tr-data');

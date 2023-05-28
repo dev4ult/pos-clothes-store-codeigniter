@@ -25,9 +25,7 @@ if (session()->get('role') != "cashier") {
         <?php endif ?>
         <h3 class="text-base font-medium mb-5 mt-2">
             <?= session()->get('username') ? session()->get('username') : 'Guest' ?></h3>
-        <?php if (session()->get('role') != "cashier" && !is_null(session()->get('logged_in'))) : ?>
-        <a href="/" class="btn btn-sm btn-outline btn-primary">edit profil</a>
-        <?php endif ?>
+
     </div>
     <ul class="mt-10 flex flex-col gap-2">
         <?php foreach ($pages as $page) : ?>

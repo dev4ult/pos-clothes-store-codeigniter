@@ -78,9 +78,12 @@ class Product extends BaseController {
             ->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')
             ->join('ukuran', 'stok_produk.id_ukuran = ukuran.id_ukuran')->get()->getResult();
 
-
+        if (empty($view)) {
+            return view('product/search_item', $this->data);
+        }
         return view('product/search_item' . $view, $this->data);
     }
+
 
     public function table_list() {
         if (session()->get('role') == "cashier") {

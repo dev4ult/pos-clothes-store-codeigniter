@@ -34,7 +34,7 @@ class Filters extends BaseConfig {
             // 'csrf',
             'usersAuth' => [
                 'except' => [
-                    'auth', 'auth/*', 'home'
+                    'auth', 'auth/*'
                 ]
             ],
             // 'invalidchars',
