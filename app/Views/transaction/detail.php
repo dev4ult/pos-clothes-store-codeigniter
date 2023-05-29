@@ -1,9 +1,14 @@
 <div class="w-full">
     <div class="flex gap-10 items-center justify-between mb-10">
         <h1 class="font-semibold text-3xl">Detail Transaksi</h1>
-        <a href="/transaksi" class="btn ">
-            <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
-        </a>
+        <div class="flex gap-3">
+            <a href="/transaksi" class="btn ">
+                <img src="<?= base_url("./images/arrow_white.png") ?>" class="w-7" alt="back">
+            </a>
+            <a href="/transaksi/print_transaksi/<?= $transaction->id_transaksi ?>" class="btn btn-outline btn-primary ">
+                Print Transaksi
+            </a>
+        </div>
     </div>
     <div class="flex flex-col gap-4 border-2 rounded-2xl p-8 w-full">
         <div class="flex gap-5 justify-between">

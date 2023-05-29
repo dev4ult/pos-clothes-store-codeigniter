@@ -5,7 +5,9 @@
             <a href="/dashboard" class="btn btn-square">
                 <img src="<?= base_url('./images/dashboard.png') ?>" class="w-7" alt="dashboard">
             </a>
-            <a href="/transaksi/print_pdf" class="btn btn-primary ">Open / Download PDF</a>
+            <a href="/transaksi/print_histori" class="btn btn-outline btn-primary">
+                Print Histori
+            </a>
             <div class="form-control">
                 <input type="text" placeholder="Cari Transaksi..." id="transaksi-search" name="search-key" id="transaction-search-key" class="input input-bordered" />
             </div>

@@ -2,7 +2,8 @@
     <div class="flex gap-10 justify-between items-center">
         <h1 class="font-semibold text-3xl">Selamat datang, <?= session()->get('username') ?></h1>
         <div class="dropdown dropdown-end">
-            <label tabindex="0" class="btn m-1 btn-square btn-error"><img class="w-7" src="<?= base_url('./images/logout.png') ?>" alt="logout" /></label>
+            <label tabindex="0" class="btn m-1 btn-square btn-error"><img class="w-7"
+                    src="<?= base_url('./images/logout.png') ?>" alt="logout" /></label>
             <div tabindex="0" class="dropdown-content menu p-4 shadow bg-base-100 rounded-box w-52">
                 <h4 class="badge badge-success">Online</h4>
                 <h3 class="font-medium text-2xl"><?= session()->get('username') ?></h3>
@@ -33,19 +34,19 @@
             <div class="stats text-primary-content border-2 border-black w-full">
                 <div class="stat border-r-2 border-black">
                     <div class=" stat-title">Member</div>
-                    <div class="stat-value"><?= $total_product ?> Terdaftar</div>
+                    <div class="stat-value"><?= $total_member ?> Terdaftar</div>
                     <div class="stat-actions">
                         <a href="/member" class="btn btn-sm btn-outline">List Member</a>
                     </div>
                 </div>
                 <?php if (session()->get('role') != 'cashier') : ?>
-                    <div class="stat w-full bg-black text-white">
-                        <div class="stat-title text-white">Kasir</div>
-                        <div class="stat-value"><?= $total_product ?> Pegawai</div>
-                        <div class="stat-actions">
-                            <a href="/kasir" class="btn btn-sm btn-accent btn-outline">List Pegawai</a>
-                        </div>
+                <div class="stat w-full bg-black text-white">
+                    <div class="stat-title text-white">Kasir</div>
+                    <div class="stat-value"><?= $total_cashier ?> Pegawai</div>
+                    <div class="stat-actions">
+                        <a href="/kasir" class="btn btn-sm btn-accent btn-outline">List Pegawai</a>
                     </div>
+                </div>
                 <?php endif ?>
             </div>
         </div>

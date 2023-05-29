@@ -230,7 +230,7 @@ class Transaction extends BaseController {
         return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 
-    public function print_pdf() {
+    public function print_history() {
         $dompdf = new Dompdf();
 
         $this->data['transactions'] = $this->transaction_model->select('id_transaksi, member.nama_lengkap as nama_member, kasir.nama_lengkap as nama_kasir, status')->join('member', 'member.id_member = transaksi.id_member', 'left')->join('kasir', 'kasir.id_kasir = transaksi.id_kasir')->get()->getResult();
@@ -247,5 +247,29 @@ class Transaction extends BaseController {
         $dompdf->stream();
 
         return redirect()->route('transaksi');
+    }
+
+    public function print_transaction($transaction_id = "") {
+        $transaction = $this->transaction_model->where(['id_transaksi' => $transaction_id])->first();
+        if (empty($transaction_id) || !$transaction) {
+            session()->setFlashdata("error", "ID Transaksi tidak diketahui");
+            return redirect()->route('transaksi');
+        }
+
+        $dompdf = new Dompdf();
+
+        $this->data['transaction'] = $this->transaction_model->select('id_transaksi, member.nama_lengkap as nama_member, kasir.nama_lengkap as nama_kasir, status')->join('member', 'member.id_member = transaksi.id_member', 'left')->join('kasir', 'kasir.id_kasir = transaksi.id_kasir')->where(['id_transaksi' => $transaction_id])->get()->getResult()[0];
+
+        $this->data['transaction_details'] = $this->detail_transaction_model->select('*')->join('stok_produk', 'stok_produk.id_stok = detail_transaksi.id_stok')->join('produk_baju', 'stok_produk.id_produk = produk_baju.id_produk')->where(['id_transaksi' => $transaction_id])->get()->getResult();
+
+        $html = view("transaction/pdf_detail", $this->data);
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper("A4", "Landscape");
+        $dompdf->render();
+        $dompdf->stream();
+
+        return redirect()->to('/transaksi/detail/' . $transaction_id);
     }
 }
