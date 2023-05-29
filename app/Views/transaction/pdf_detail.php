@@ -23,7 +23,7 @@
         }
 
         .text-xl {
-            font-size: 1.75rem;
+            font-size: 1.25rem;
             margin-block: 0px;
             line-height: 0.5;
         }
@@ -31,7 +31,7 @@
         .badge {
             text-decoration: underline;
             font-weight: 400;
-            font-size: 1.5rem;
+            font-size: 1rem;
         }
 
 
@@ -67,6 +67,7 @@
 
 <body>
     <div class="container">
+        <h1>Detail Transaksi</h1>
         <div>
             <p class="badge">Member</p>
             <?php if (!empty($transaction->nama_member)) : ?>
