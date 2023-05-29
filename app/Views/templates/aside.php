@@ -1,5 +1,5 @@
 <?php
-$pages = ["Home", "Dashboard", "Produk", "Transaksi", "Member"];
+$pages = ["Dashboard", "Produk", "Transaksi", "Member"];
 
 if (session()->get('role') != "cashier") {
     array_push($pages, "Kasir");
@@ -16,12 +16,11 @@ if (session()->get('role') != "cashier") {
     </button>
     <div class="text-center">
         <?php if (is_null(session()->get('logged_in'))) : ?>
-        <div class="w-16 h-16 flex justify-center items-center mx-auto bg-black/20 rounded-full">
-            <img src="<?= base_url('./images/user.png') ?>" class="w-7" alt="profile photo">
-        </div>
+            <div class="w-16 h-16 flex justify-center items-center mx-auto bg-black/20 rounded-full">
+                <img src="<?= base_url('./images/user.png') ?>" class="w-7" alt="profile photo">
+            </div>
         <?php else : ?>
-        <img src="data:image/jpg;base64,<?= base64_encode(session()->get('user_photo')) ?>"
-            class="w-16 h-16 mx-auto bg-cover rounded-full" alt="profile photo">
+            <img src="data:image/jpg;base64,<?= base64_encode(session()->get('user_photo')) ?>" class="w-16 h-16 mx-auto bg-cover rounded-full" alt="profile photo">
         <?php endif ?>
         <h3 class="text-base font-medium mb-5 mt-2">
             <?= session()->get('username') ? session()->get('username') : 'Guest' ?></h3>
@@ -29,9 +28,8 @@ if (session()->get('role') != "cashier") {
     </div>
     <ul class="mt-10 flex flex-col gap-2">
         <?php foreach ($pages as $page) : ?>
-        <li><a href="/<?= strtolower($page) ?>"
-                class="btn <?= $page_title == $page ? 'btn-primary text-white btn-active' : 'btn-ghost' ?> w-full text-lg btn-xl min-w-[13rem]"><?= $page == "" ? "Home" : $page ?></a>
-        </li>
+            <li><a href="/<?= strtolower($page) ?>" class="btn <?= $page_title == $page ? 'btn-primary text-white btn-active' : 'btn-ghost' ?> w-full text-lg btn-xl min-w-[13rem]"><?= $page == "" ? "Home" : $page ?></a>
+            </li>
         <?php endforeach ?>
     </ul>
 </div>
